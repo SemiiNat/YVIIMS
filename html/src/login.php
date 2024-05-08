@@ -8,7 +8,7 @@ session_start([
     'cookie_samesite' => 'Lax'
 ]);
 
-include 'config.php';  // Ensure this path is correct
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];

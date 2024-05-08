@@ -1,5 +1,9 @@
 <?php
-
+// Database connection settings
+$servername = "mysql-server"; // Changed from localhost to the service name
+$username = "root";
+$password = "secret"; // Ensure this matches the environment password set in docker-compose.yaml
+$dbname = "ims_yvi";
 
 // Create a connection using MySQLi with error handling
 $conn = new mysqli($servername, $username, $password, $dbname);
