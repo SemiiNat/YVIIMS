@@ -9,6 +9,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN apt-get update && apt-get install -y git zip unzip
 
+# Copy custom php.ini
+COPY php.ini /usr/local/etc/php/php.ini
 
 # Set the working directory
 WORKDIR /var/www/html/
