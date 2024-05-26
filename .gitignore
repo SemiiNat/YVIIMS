@@ -5,4 +5,5 @@
 *package-lock.json
 .env
 .env.docker
-*/docker/phpmyadmin/sessions
+
+/docker/phpmyadmin/sessions/
