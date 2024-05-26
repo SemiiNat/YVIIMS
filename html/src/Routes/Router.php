@@ -94,15 +94,53 @@ class Router
                     $middleware->process();
                 }
             }
+
             if (method_exists($controller, $actionName)) {
                 $request = new Request();
                 $response = new Response();
-                $controller->$actionName($request, $response);
+
+                // Call the controller action
+                $result = $controller->$actionName($request, $response);
+
+                // Handle view rendering if the action returns a view name
+                if (is_string($result) && $this->isView($result)) {
+                    $this->renderView($result, $response);
+                } else {
+                    $response->send();
+                }
+
                 return;
             }
         }
 
         $response = new Response('404 Not Found', 404);
+        $response->send();
+    }
+
+
+    /**
+     * Determines if the given string is a valid view.
+     *
+     * @param string $view The view name.
+     * @return bool Returns true if the view exists, false otherwise.
+     */
+    private function isView(string $view): bool
+    {
+        return file_exists(__DIR__ . '/../Views/' . $view . '.php');
+    }
+
+    /**
+     * Renders the specified view.
+     *
+     * @param string $view The view name.
+     * @param Response $response The response object.
+     */
+    private function renderView(string $view, Response $response): void
+    {
+        ob_start();
+        include __DIR__ . '/../Views/' . $view . '.php';
+        $content = ob_get_clean();
+        $response->setBody($content);
         $response->send();
     }
 }

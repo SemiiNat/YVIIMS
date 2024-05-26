@@ -22,15 +22,12 @@ class Response
 
     public function send(): void
     {
-        // send HTTP status code
         http_response_code($this->statusCode);
 
-        // send headers
         foreach ($this->headers as $name => $value) {
             header("$name: $value");
         }
 
-        // send body
         echo $this->body;
     }
 
@@ -45,5 +42,10 @@ class Response
     {
         $this->setHeader('Content-Type', 'application/json');
         $this->body = json_encode($data);
+    }
+
+    public function setBody($body): void
+    {
+        $this->body = $body;
     }
 }
