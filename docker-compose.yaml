@@ -1,42 +1,59 @@
-version: "3.7"
+version: "3.8"
+
 services:
   web-server:
-    container_name: web-server
     build:
-      context: .
       dockerfile: php.Dockerfile
-    restart: always
+      context: ./
+    container_name: ivs-webserver
     volumes:
       - "./html/:/var/www/html/"
+      - "./php.ini:/usr/local/etc/php/php.ini"
+      - "./.htaccess:/var/www/html/.htaccess"
+    restart: unless-stopped
     ports:
-      - "8080:80"
-    networks:
-      - mynetwork
-  mysql-server:
-    container_name: mysql-server
-    image: mysql:8.0
-    restart: always
+      - "${APACHE_PORT:-8080}:80"
     environment:
-      MYSQL_ROOT_PASSWORD: secret
+      - SERVICE_NAME=webserver
+      - SERVICE_TAGS=dev
+    networks:
+      - ivs-networks
+
+  mysql-server:
+    image: mysql:8.0
+    container_name: ivs-mysql
     volumes:
       - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=sOQSO6DxD
+      - MYSQL_DATABASE=ivs
+      - SERVICE_NAME=mysql
+      - SERVICE_TAGS=dev
     networks:
-      - mynetwork
+      - ivs-networks
 
   phpmyadmin:
-    container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin:5.0.1
-    restart: always
+    image: phpmyadmin/phpmyadmin
+    container_name: erider-phpmyadmin
     environment:
-      PMA_HOST: mysql-server
-      PMA_USER: root
-      PMA_PASSWORD: secret
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql-server
+      - PMA_USER=root
+      - PMA_PASSWORD=sOQSO6DxD
     ports:
-      - "5001:80"
+      - "${PHPMYADMIN_PORT:-8081}:80"
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
     networks:
-      - mynetwork
+      - ivs-networks
 
 networks:
-  mynetwork:
+  ivs-networks:
+    driver: bridge
+
 volumes:
   mysql-data:

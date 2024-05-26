@@ -1,16 +1,38 @@
-# Use the official PHP image as the base image
-FROM php:7.4.3-apache
+FROM php:8.0-apache
 
-# Install required PHP extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN apt-get update -y && \
+  apt-get install -y sendmail libpng-dev \
+  curl \
+  libfreetype6-dev \
+  libjpeg62-turbo-dev \
+  gnupg2
 
-# Install Composer globally
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+  docker-php-ext-install -j$(nproc) gd
+
+RUN docker-php-ext-install \
+    mysqli \
+    pdo_mysql \
+    && a2enmod \
+    rewrite
+
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN apt-get update && apt-get install -y git zip unzip
+# Install Node.js 20.13.1
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+  apt-get install -y nodejs
 
-# Copy custom php.ini
-COPY php.ini /usr/local/etc/php/php.ini
+# Copy custom php.ini file
+COPY ./php.ini /usr/local/etc/php
 
-# Set the working directory
-WORKDIR /var/www/html/
+# Copy .htaccess file
+COPY .htaccess /var/www/html/.htaccess
+
+# Allow .htaccess with RewriteEngine
+RUN { \
+    echo '<Directory /var/www/html/>'; \
+    echo '    AllowOverride All'; \
+    echo '</Directory>'; \
+} > /etc/apache2/conf-available/htaccess.conf && a2enconf htaccess

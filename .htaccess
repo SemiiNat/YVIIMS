@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Rewrite requests to the router.php file
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/(.*)$ router.php?url=$1 [QSA,L]
+
+# Rewrite requests to the index.php file for other files or directories
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
