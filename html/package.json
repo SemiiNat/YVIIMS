@@ -7,11 +7,11 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "tailwindcss -i public/css/styles.css -o public/css/output.css"
+    "build-css": "tailwindcss -i public/css/styles.css -o public/css/output.css",
+    "watch-css": "tailwindcss -i public/css/styles.css -o public/css/output.css --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "RGGP",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^10.4.19",
