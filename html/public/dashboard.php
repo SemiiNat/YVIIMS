@@ -23,7 +23,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         }
 
         function loadContent(page) {
-            const url = 'src/' + page + '.php';
+            const url = '../src/' + page + '.php';
             console.log("Attempting to load:", url); // For debugging
             fetch(url, {
                 method: 'GET',
@@ -53,7 +53,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         <div class="fixed left-0 top-0 w-64 h-full bg-lime-600 p-6 text-white">
-            <a href="#" class="flex items-center pb-4 border-b border-lime-500">
+            <a href="dashboard.php" class="flex items-center pb-4 border-b border-lime-500">
                 <img src="https://placehold.co/32x32" alt="" class="w-10 h-10 rounded object-cover">
                 <span class="text-lg font-bold ml-3">Logo</span>
             </a>
