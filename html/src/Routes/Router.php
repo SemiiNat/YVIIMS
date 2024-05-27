@@ -5,6 +5,7 @@ namespace App\Routes;
 use App\Middleware\MiddlewareInterface;
 use App\Http\Request;
 use App\Http\Response;
+use App\Http\View;
 
 /**
  * Class Router
@@ -70,10 +71,13 @@ class Router
      */
     private function matchRoute(string $pattern, string $uri): bool
     {
+        $uriPath = parse_url($uri, PHP_URL_PATH);
+
         $pattern = preg_replace('/\{([A-Za-z]+)\}/', '([A-Za-z0-9]+)', $pattern);
         $pattern = str_replace('/', '\/', $pattern);
-        return preg_match('/^' . $pattern . '$/', $uri);
+        return preg_match('/^' . $pattern . '$/', $uriPath);
     }
+
 
     /**
      * Handles the matched route by invoking the corresponding controller action.
@@ -102,8 +106,8 @@ class Router
                 // Call the controller action
                 $result = $controller->$actionName($request, $response);
 
-                // Handle view rendering if the action returns a view name
-                if (is_string($result) && $this->isView($result)) {
+                // Check if the result is an instance of View and render it
+                if ($result instanceof View) {
                     $this->renderView($result, $response);
                 } else {
                     $response->send();
@@ -117,29 +121,15 @@ class Router
         $response->send();
     }
 
-
-    /**
-     * Determines if the given string is a valid view.
-     *
-     * @param string $view The view name.
-     * @return bool Returns true if the view exists, false otherwise.
-     */
-    private function isView(string $view): bool
-    {
-        return file_exists(__DIR__ . '/../Views/' . $view . '.php');
-    }
-
     /**
      * Renders the specified view.
      *
-     * @param string $view The view name.
+     * @param View $view The View object.
      * @param Response $response The response object.
      */
-    private function renderView(string $view, Response $response): void
+    private function renderView(View $view, Response $response): void
     {
-        ob_start();
-        include __DIR__ . '/../Views/' . $view . '.php';
-        $content = ob_get_clean();
+        $content = $view->render();
         $response->setBody($content);
         $response->send();
     }
