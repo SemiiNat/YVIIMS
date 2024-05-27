@@ -56,10 +56,11 @@ class Container
         $dependencies = [];
 
         foreach ($parameters as $parameter) {
-            $dependencyClass = $parameter->getClass();
+            $type = $parameter->getType();
 
-            if ($dependencyClass !== null) {
-                $dependency = self::get($dependencyClass->getName());
+            if ($type !== null && !$type->isBuiltin()) {
+                $dependencyClassName = $type->getName();
+                $dependency = self::get($dependencyClassName);
                 $dependencies[] = $dependency;
             } else {
                 throw new \Exception("Unable to resolve dependency for parameter: " . $parameter->getName());

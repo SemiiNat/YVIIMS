@@ -2,7 +2,8 @@
 
 namespace App\Helper;
 
-use App\Helper\EnvHelper;
+use mysqli;
+use mysqli_stmt;
 
 /**
  * The DatabaseHelper class provides methods for interacting with the database.
@@ -23,12 +24,11 @@ class DatabaseHelper
      */
     private function __construct()
     {
-        EnvHelper::load();
         $this->host = getenv('MYSQL_HOST');
         $this->password = getenv('MYSQL_ROOT_PASSWORD');
         $this->database = getenv('MYSQL_DATABASE');
         $this->user = getenv('MYSQL_USER');
-        $this->con = new \mysqli($this->host, $this->user, $this->password, $this->database);
+        $this->con = new mysqli($this->host, $this->user, $this->password, $this->database);
 
         if ($this->con->connect_error) {
             throw new \Exception('Connection error: ' . $this->con->connect_error);
@@ -84,6 +84,11 @@ class DatabaseHelper
     {
         $stmt = $this->con->prepare($sql);
 
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return [];
+        }
+
         if ($params) {
             $this->bindParams($stmt, $params);
         }
@@ -110,6 +115,11 @@ class DatabaseHelper
     {
         $stmt = $this->con->prepare($sql);
 
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return false;
+        }
+
         if ($params) {
             $this->bindParams($stmt, $params);
         }
@@ -128,6 +138,11 @@ class DatabaseHelper
     {
         $stmt = $this->con->prepare($sql);
 
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return null;
+        }
+
         if ($params) {
             $this->bindParams($stmt, $params);
         }
@@ -142,11 +157,15 @@ class DatabaseHelper
     /**
      * Binds query parameters to a prepared statement.
      *
-     * @param \mysqli_stmt $stmt The prepared statement.
+     * @param mysqli_stmt $stmt The prepared statement.
      * @param array $params The query parameters.
      */
     private function bindParams($stmt, $params)
     {
+        if (!$stmt) {
+            throw new \Exception("Failed to prepare statement.");
+        }
+
         $types = '';
         foreach ($params as $param) {
             if (is_int($param)) {
@@ -160,7 +179,10 @@ class DatabaseHelper
             }
         }
 
-        $stmt->bind_param($types, ...$params);
+        $result = $stmt->bind_param($types, ...$params);
+        if (!$result) {
+            throw new \Exception("Failed to bind parameters.");
+        }
     }
 
     /**
@@ -179,6 +201,11 @@ class DatabaseHelper
         $sql = "INSERT INTO {$table} ({$fields}) VALUES ({$placeholders})";
 
         $stmt = $this->con->prepare($sql);
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return false;
+        }
+
         $this->bindParams($stmt, array_values($data));
         $result = $stmt->execute();
 
@@ -223,6 +250,11 @@ class DatabaseHelper
         $updates = rtrim($updates, ', ');
         $params[] = $id; // For WHERE clause
         $stmt = $this->con->prepare("UPDATE {$table_name} SET {$updates} WHERE id = ?");
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return false;
+        }
+
         $this->bindParams($stmt, $params);
 
         return $stmt->execute();
@@ -262,7 +294,11 @@ class DatabaseHelper
     public function soft_delete($table_name, $id)
     {
         $stmt = $this->con->prepare("UPDATE {$table_name} SET is_deleted = 1 WHERE id = ?");
-        $stmt->bind_param('s', $id);
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return false;
+        }
+        $stmt->bind_param('i', $id);
         return $stmt->execute();
     }
 
@@ -276,7 +312,11 @@ class DatabaseHelper
     public function hard_delete($table_name, $id)
     {
         $stmt = $this->con->prepare("DELETE FROM {$table_name} WHERE id = ?");
-        $stmt->bind_param('s', $id);
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return false;
+        }
+        $stmt->bind_param('i', $id);
         return $stmt->execute();
     }
 }
