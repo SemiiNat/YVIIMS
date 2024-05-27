@@ -10,5 +10,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ router.php?url=$1 [QSA,L]
 
-# Redirect root URL to the login page
-RewriteRule ^$ /login [R=302,L]
+# Redirect root URL to the dashboard page
+RewriteRule ^$ /dashboard [R=302,L]

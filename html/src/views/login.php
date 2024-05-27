@@ -33,7 +33,9 @@
                 <div class="mt-5">
                     <button type="submit" class="border-2 border-lime-700 bg-lime-700 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-lime-700 font-semibold">Login</button>
                 </div>
-                <div id="error-message" class="mt-3 text-red-500 text-center" style="display: none;"></div>
+                <?php if (isset($error)) : ?>
+                    <div id="error-message" class="mt-3 text-red-500 text-center"><?= $error ?></div>
+                <?php endif; ?>
             </form>
         </div>
     </div>

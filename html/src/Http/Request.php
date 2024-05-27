@@ -4,6 +4,11 @@ namespace App\Http;
 
 class Request
 {
+    /**
+     * Get the request body parameters.
+     *
+     * @return array The request body parameters.
+     */
     public function getBody(): array
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -19,10 +24,13 @@ class Request
         return [];
     }
 
+    /**
+     * Get the uploaded files.
+     *
+     * @return array The uploaded files.
+     */
     public function getFiles(): array
     {
         return $_FILES;
     }
-
-    // You can add other methods as necessary...
 }

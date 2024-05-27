@@ -2,23 +2,63 @@
 
 namespace App\Controllers;
 
+use App\Http\Redirect;
+use App\Services\AuthService;
 use App\Http\Request;
-use App\Http\Response;
+use App\Http\Session;
+use App\Http\View;
 
 class AuthController
 {
-    public function get(Request $request, Response $response): string
+    private $service;
+
+    /**
+     * AuthController constructor.
+     *
+     * @param AuthService $service The authentication service.
+     */
+    public function __construct(AuthService $service)
     {
-        return 'login';
+        $this->service = $service;
+        Session::start();
     }
 
-    public function login(Request $request, Response $response)
+    /**
+     * Get the login view.
+     *
+     * @return View The login view.
+     */
+    public function get(): View
     {
-        // Handle login logic here
+        return View::make('login');
     }
 
-    public function register(): string
+    /**
+     * Handle the login request.
+     *
+     * @param Request $request The login request.
+     */
+    public function login(Request $request)
     {
-        return 'register';
+        $data = $request->getBody();
+
+        $result = $this->service
+            ->authenticate($data["username"], $data["password"]);
+
+        if ($result['user'] === null) {
+            return View::make('login', ['error' => "Invalid username or password"]);
+        }
+
+        Session::put('user', $result['user']);
+        Redirect::to('/dashboard');
+    }
+
+    /**
+     * Handle the logout request.
+     */
+    public function logout()
+    {
+        Session::destroy();
+        Redirect::to('/login');
     }
 }
