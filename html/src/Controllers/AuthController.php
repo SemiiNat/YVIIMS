@@ -38,7 +38,7 @@ class AuthController
      *
      * @param Request $request The login request.
      */
-    public function login(Request $request)
+    public function login(Request $request): void
     {
         $data = $request->getBody();
 
@@ -56,7 +56,7 @@ class AuthController
     /**
      * Handle the logout request.
      */
-    public function logout()
+    public function logout(): void
     {
         Session::destroy();
         Redirect::to('/login');

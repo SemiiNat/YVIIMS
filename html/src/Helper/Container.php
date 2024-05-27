@@ -2,11 +2,28 @@
 
 namespace App\Helper;
 
+/**
+ * The Container class provides a simple dependency injection container.
+ */
 class Container
 {
+    /**
+     * @var array The instances of resolved classes.
+     */
     protected static $instances = [];
+
+    /**
+     * @var array The registered services.
+     */
     protected static $services = [];
 
+    /**
+     * Get an instance of the specified class.
+     *
+     * @param string $className The name of the class.
+     * @return object The instance of the class.
+     * @throws \Exception If the class is not instantiable.
+     */
     public static function get($className)
     {
         if (!isset(self::$instances[$className])) {
@@ -20,6 +37,13 @@ class Container
         return self::$instances[$className];
     }
 
+    /**
+     * Register a class with an optional factory function.
+     *
+     * @param string $className The name of the class.
+     * @param callable|null $factory The factory function to create the instance.
+     * @return void
+     */
     public static function register($className, callable $factory = null)
     {
         if ($factory !== null) {
@@ -31,6 +55,13 @@ class Container
         }
     }
 
+    /**
+     * Resolve the dependencies of a class and create an instance.
+     *
+     * @param string $className The name of the class.
+     * @return object The instance of the class.
+     * @throws \Exception If the class is not instantiable or if a dependency cannot be resolved.
+     */
     private static function resolve($className)
     {
         $reflector = new \ReflectionClass($className);
@@ -51,6 +82,13 @@ class Container
         return $reflector->newInstanceArgs($dependencies);
     }
 
+    /**
+     * Resolve the dependencies of a constructor.
+     *
+     * @param array $parameters The parameters of the constructor.
+     * @return array The resolved dependencies.
+     * @throws \Exception If a dependency cannot be resolved.
+     */
     private static function resolveDependencies($parameters)
     {
         $dependencies = [];
