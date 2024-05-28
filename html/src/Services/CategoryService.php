@@ -51,6 +51,10 @@ class CategoryService {
         return $validationErrors;
     }
 
+    public function deleteCategory(int $id){
+        $this->categoryModel->delete($id);
+    }
+
     public function getCategoryErrors()
     {
         return $this->lastErrors;

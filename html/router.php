@@ -30,5 +30,6 @@ $routes->add(new Route('POST','/category', [CategoryController::class,'save']));
 
 $routes->add(new Route('GET','/api/category', [CategoryController::class,'get']));
 $routes->add(new Route('GET', '/category/{id}', [CategoryController::class, 'getById']));
+$routes->add(new Route('DELETE', '/category/{id}', [CategoryController::class, 'delete']));
 
 $router->run();

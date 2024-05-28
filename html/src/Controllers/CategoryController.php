@@ -41,6 +41,20 @@ class CategoryController
         return $response->sendJson($category);
     }
 
+    public function delete(Request $request, Response $response, int $id) {
+        if(empty($id)){
+            return $response->sendJson(["error"=> "no id found"],404);
+        }
+
+        $category = $this->categoryService->getCategoryById($id);
+
+        if (empty($category)){
+            return $response->sendJson(["error"=> "category with $id not found"],404);
+        }
+
+        $this->categoryService->deleteCategory($id);
+    }
+
     public function save(Request $request,Response $response)
     {
         $data = $request->getBody();

@@ -41,7 +41,7 @@ View::startSection('content');
     <form method="POST" id="categoryForm" hx-post="/category" hx-trigger="submit" hx-swap="none" hx-on="htmx:afterRequest: loadCategories">
         <label for="category_name" class="block text-sm font-medium text-gray-700">Category Name:</label>
         <input type="text" id="category_name" name="category_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <p id="category_name_err" class="text-red-500 text-sm hidden"></p>
+        <p id="category_name_err" class="error-validation text-red-500 text-sm hidden"></p>
         <button type="submit" class="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-700">
             Submit
         </button>
@@ -60,7 +60,7 @@ View::startSection('content');
         <input value="id" type="hidden" name="id" />
         <label for="category_name" class="block text-sm font-medium text-gray-700">Category Name:</label>
         <input type="text" id="category_name" name="category_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <p id="edit_category_name_err" class="text-red-500 text-sm hidden"></p>
+        <p id="edit_category_name_err" class="error-validation text-red-500 text-sm hidden"></p>
         <button type="submit" class="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-700">
             Update
         </button>
@@ -82,6 +82,14 @@ const openButton = document.getElementById('openButtonDialog');
 const closeButton = document.getElementById('close');
 
 
+const clearFormErrors = () => {
+    const errorElements = document.querySelectorAll('.error-validation');
+    errorElements.forEach(element => {
+        element.innerHTML = '';
+        element.classList.add('hidden');
+    });
+}
+
 const showEditDialog =  async (categoryid) => {
     const dataEdited = await fetch(`/category/${categoryid}`);
     const jsonObj = await dataEdited.json();
@@ -89,19 +97,25 @@ const showEditDialog =  async (categoryid) => {
 
     fillForm(form, jsonObj);
     editDialog.showModal();
+    clearFormErrors();
 }
 
 const closeEditDialog = () => {
     editDialog.close();
+    clearFormErrors();
 }
 
 // When the user clicks the close button, close the addDialog
 closeButton.addEventListener('click', function() {
     addDialog.close();
+    clearFormErrors();
+    clearForm();
 });
 
 openButton.addEventListener('click', function(){
     addDialog.showModal();
+    clearFormErrors();
+    clearForm();
 })
 
 document.getElementById('categoryForm').addEventListener('htmx:afterRequest', async function(event) {
@@ -179,7 +193,7 @@ const loadCategories = async () => {
                 <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
                     <a class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a>
                     <button onClick="showEditDialog(${category.id})"  class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Edit</button>
-                    <a class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</a>
+                    <button onclick="deleteCategory(${category.id})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</button>
                 </td>
             `;
             tableBody.appendChild(row);
@@ -192,6 +206,30 @@ const loadCategories = async () => {
 
 function clearForm() {
     document.getElementById('categoryForm').reset();
+}
+
+const deleteCategory = async (id) => {
+    const result = await Swal.fire({
+        title: "Delete?",
+        text: "Do you want to delete this Category",
+        icon: "warning",
+        confirmButtonText: "Yes",
+        showDenyButton: true,
+        denyButtonText: "No",
+    });
+
+    if (result.isConfirmed) {
+        const response = await fetch(`/category/${id}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            Swal.fire("Deleted!", "Category has been deleted.", "success");
+            await loadCategories(); // Refresh the categories after deletion
+        } else {
+            Swal.fire("Error!", "Category could not be deleted.", "error");
+        }
+    }
 }
 
 // Initial load of categories
