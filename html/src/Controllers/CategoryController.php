@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Http\Redirect;
 use App\Http\Request;
+use App\Http\Response;
 use App\Http\View;
 use App\Services\CategoryService;
 
@@ -17,17 +18,27 @@ class CategoryController
 
     public function index(): View
     {
-        $categories = $this->categoryService->getCategory();
-        $contentView = View::make('categoryPage', ['categories' => $categories])->render();
+        $contentView = View::make('categoryPage')->render();
 
         return View::make('dashboard', ['content' => $contentView]);
     }
 
-    public function save(Request $request)
+    public function get(Request $request, Response $response){
+        $data = $this->categoryService->getCategory();
+
+        return $response->sendJson($data);
+    }
+
+    public function save(Request $request,Response $response)
     {
         $data = $request->getBody();
 
-        $this->categoryService->createCategory($data);
-        Redirect::to('/category');
+        $validationError = $this->categoryService->createCategory($data);
+
+        if (!empty($validationError)) {
+            return $response->sendJson($validationError, 422);
+        }
+
+        return $response->sendJson(['success'=> true], 201);
     }
 }

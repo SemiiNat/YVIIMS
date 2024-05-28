@@ -28,4 +28,6 @@ $routes->add(new Route('GET','/product',[ProductController::class,'index']));
 $routes->add(new Route('GET','/category', [CategoryController::class,'index']));
 $routes->add(new Route('POST','/category', [CategoryController::class,'save']));
 
+$routes->add(new Route('GET','/api/category', [CategoryController::class,'get']));
+
 $router->run();

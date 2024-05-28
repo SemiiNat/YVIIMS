@@ -22,24 +22,29 @@ class CategoryService {
         return $this->categoryModel->findAll();
     }
 
-    public function createCategory($data) : void {
-
+    public function createCategory($data): array
+    {
         $this->db->beginTransaction();
-
-        try{
+        $validationErrors = [];
+    
+        try {
             $validationErrors = $this->categoryModel->validate($data);
-
-            $this->categoryModel->save($data);
-
+    
             if (!empty($validationErrors)) {
-                $this->lastErrors = $validationErrors;
                 throw new \Exception("Validation Error");
             }
+    
+            $this->categoryModel->save($data);
             $this->db->commit();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->db->rollBack();
+            if ($e->getMessage() === "Validation Error") {
+                return $validationErrors;
+            }
             throw $e;
         }
+    
+        return $validationErrors;
     }
 
     public function getCategoryErrors()
