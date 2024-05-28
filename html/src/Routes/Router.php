@@ -50,17 +50,19 @@ class Router
     {
         $uri = $_SERVER['REQUEST_URI'];
         $method = $_SERVER['REQUEST_METHOD'];
-
+    
         foreach ($this->routes->getRoutes() as $route) {
-            if ($route->getMethod() === $method && $this->matchRoute($route->getPath(), $uri)) {
-                $this->handleRoute($route);
+            $params = [];
+            if ($route->getMethod() === $method && $this->matchRoute($route->getPath(), $uri, $params)) {
+                $this->handleRoute($route, $params);
                 return;
             }
         }
-
+    
         $response = new Response('404 Not Found', 404);
         $response->send();
     }
+    
 
     /**
      * Matches the given URI against the route pattern.
@@ -69,14 +71,25 @@ class Router
      * @param string $uri The URI to match against.
      * @return bool Returns true if the URI matches the pattern, false otherwise.
      */
-    private function matchRoute(string $pattern, string $uri): bool
+    private function matchRoute(string $pattern, string $uri, &$params = []): bool
     {
         $uriPath = parse_url($uri, PHP_URL_PATH);
-
-        $pattern = preg_replace('/\{([A-Za-z]+)\}/', '([A-Za-z0-9]+)', $pattern);
+    
+        $pattern = preg_replace('/\{([A-Za-z]+)\}/', '(?P<\1>[A-Za-z0-9]+)', $pattern);
         $pattern = str_replace('/', '\/', $pattern);
-        return preg_match('/^' . $pattern . '$/', $uriPath);
+    
+        if (preg_match('/^' . $pattern . '$/', $uriPath, $matches)) {
+            foreach ($matches as $key => $value) {
+                if (is_string($key)) {
+                    $params[$key] = $value;
+                }
+            }
+            return true;
+        }
+    
+        return false;
     }
+    
 
 
     /**
@@ -84,42 +97,42 @@ class Router
      *
      * @param Route $route The matched route.
      */
-    private function handleRoute(Route $route): void
+    private function handleRoute(Route $route, array $params = []): void
     {
         $controllerName = $route->getAction()[0];
         $actionName = $route->getAction()[1];
-
+    
         if (class_exists($controllerName)) {
             $controller = $this->container->get($controllerName);
-
+    
             // Apply middleware
             foreach ($this->middleware as $middleware) {
                 if ($middleware->handle()) {
                     $middleware->process();
                 }
             }
-
+    
             if (method_exists($controller, $actionName)) {
                 $request = new Request();
                 $response = new Response();
-
-                // Call the controller action
-                $result = $controller->$actionName($request, $response);
-
+    
+                // Call the controller action with parameters
+                $result = $controller->$actionName($request, $response, ...$params);
+    
                 // Check if the result is an instance of View and render it
                 if ($result instanceof View) {
                     $this->renderView($result, $response);
                 } else {
                     $response->send();
                 }
-
+    
                 return;
             }
         }
-
+    
         $response = new Response('404 Not Found', 404);
         $response->send();
-    }
+    }    
 
     /**
      * Renders the specified view.

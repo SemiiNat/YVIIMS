@@ -22,6 +22,10 @@ class CategoryService {
         return $this->categoryModel->findAll();
     }
 
+    public function getCategoryById(int $id) {
+        return $this->categoryModel->find($id);
+    }
+
     public function createCategory($data): array
     {
         $this->db->beginTransaction();
