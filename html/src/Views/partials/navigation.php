@@ -5,7 +5,7 @@
     </a>
     <ul class="mt-5 ml-2">
         <li class="mb-5">
-            <a href="#" class="flex items-center py-2 px-4 text-black hover:bg-lime-500 rounded-md">
+            <a href="/dashboard" class="flex items-center py-2 px-4 text-black hover:bg-lime-500 rounded-md">
                 <i class="fa-sharp fa-solid fa-gauge mr-3 text-lg"></i>
                 <span class="text-lg hover:text-white">Dashboard</span>
             </a>
@@ -16,7 +16,7 @@
                 <span class="text-lg hover:text-white">Product</span>
             </button>
             <div id="productDropdown" class="hidden flex flex-col pl-4">
-                <a href="#" class="py-1">View Products</a>
+                <a href="/product" class="py-1">View Products</a>
                 <a href="#" class="py-1">Add Product</a>
             </div>
         </li>

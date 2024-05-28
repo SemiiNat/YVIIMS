@@ -9,6 +9,7 @@ use App\Routes\Router;
 use App\Middleware\AuthMiddleware;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
+use App\Controllers\ProductController;
 
 $routes = new RouteCollection();
 $router = new Router($routes, $container);
@@ -18,5 +19,10 @@ $routes->add(new Route('GET', '/dashboard', [DashboardController::class, 'index'
 $routes->add(new Route('GET', '/login', [AuthController::class, 'get'], 'auth.login'));
 $routes->add(new Route('POST', '/login', [AuthController::class, 'login'], 'auth.login'));
 $routes->add(new Route('POST', '/logout', [AuthController::class, 'logout'], 'auth.logout'));
+
+// TODO: add protected user based routes
+
+// product controller
+$routes->add(new Route('GET','/product',[ProductController::class,'index'],'product.index'));
 
 $router->run();
