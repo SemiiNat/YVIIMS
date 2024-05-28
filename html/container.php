@@ -3,10 +3,12 @@
 use App\Helper\Container;
 use App\Helper\DatabaseHelper;
 use App\Controllers\AuthController;
+use App\Controllers\CategoryController;
 use App\Controllers\DashboardController;
 use App\Controllers\ProductController;
 use App\Services\AuthService;
 use App\Helper\EnvHelper;
+use App\Services\CategoryService;
 use App\Services\ProductService;
 
 $container = new Container();
@@ -27,7 +29,13 @@ $container->register(DashboardController::class, function () {
 
 $container->register(ProductController::class, function() use ($container) {
     $productService = $container->get(ProductService::class);
-    return new ProductController($productService);
+    $categoryService = $container->get(CategoryService::class);
+    return new ProductController($productService, $categoryService);
+});
+
+$container->register(CategoryController::class, function() use ($container) {
+    $categoryService = $container->get(CategoryService::class);
+    return new CategoryController($categoryService);
 });
 
 return $container;
