@@ -38,7 +38,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: erider-phpmyadmin
+    container_name: ivs-phpmyadmin
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql-server

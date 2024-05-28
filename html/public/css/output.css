@@ -698,10 +698,6 @@ video {
   height: 100vh;
 }
 
-.min-h-screen {
-  min-height: 100vh;
-}
-
 .w-10 {
   width: 2.5rem;
 }
@@ -710,16 +706,8 @@ video {
   width: 33.333333%;
 }
 
-.w-64 {
-  width: 16rem;
-}
-
 .w-9\/12 {
   width: 75%;
-}
-
-.w-96 {
-  width: 24rem;
 }
 
 .w-full {
@@ -1004,11 +992,6 @@ video {
 .hover\:bg-lime-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(132 204 22 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-lime-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(77 124 15 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-red-700:hover {
