@@ -30,14 +30,14 @@ class AuthController
      */
     public function get(): View
     {
-        return View::make('login');
+        return View::make('login', ['error' => null]);
     }
 
     /**
      * Handle the login request.
      *
      * @param Request $request The login request.
-     * @return Response|void
+     * @return Redirect|View|void
      */
     public function login(Request $request)
     {
