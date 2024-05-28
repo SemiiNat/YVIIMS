@@ -37,14 +37,13 @@ class AuthController
      * Handle the login request.
      *
      * @param Request $request The login request.
-     * @return Redirect|View|void
+     * @return View|void The login view if authentication fails.
      */
     public function login(Request $request)
     {
         $data = $request->getBody();
 
-        $result = $this->service
-            ->authenticate($data["username"], $data["password"]);
+        $result = $this->service->authenticate($data["username"], $data["password"]);
 
         if ($result['user'] === null) {
             return View::make('login', ['error' => "Invalid username or password"]);
