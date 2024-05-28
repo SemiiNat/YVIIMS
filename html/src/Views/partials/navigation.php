@@ -17,7 +17,9 @@
             </button>
             <div id="productDropdown" class="hidden flex flex-col pl-4">
                 <a href="/product" class="py-1">View Products</a>
-                <a href="#" class="py-1">Add Product</a>
+                <a href="/product/create" class="py-1">Add Product</a>
+                <a href="/category" class="py-1">View Categories</a>
+                <a href="/category/create" class="py-1">Add Categories</a>
             </div>
         </li>
         <li class="mb-5 relative">
