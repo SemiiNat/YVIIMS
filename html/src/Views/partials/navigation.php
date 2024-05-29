@@ -28,8 +28,8 @@
                 <span class="text-lg hover:text-white">Supplier</span>
             </button>
             <div id="supplierDropdown" class="hidden flex flex-col pl-4">
-                <a href="#" class="py-1">View Suppliers</a>
-                <a href="#" class="py-1">Add Supplier</a>
+                <a href="/supplier" class="py-1">View Suppliers</a>
+                <a href="/supplier/create" class="py-1">Add Supplier</a>
             </div>
         </li>
         <li class="mb-5 relative">
