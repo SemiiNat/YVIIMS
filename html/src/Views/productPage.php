@@ -45,8 +45,8 @@ View::startSection('content');
     </div>
 </div>
 
-<!-- Dialog Element -->
-<dialog id="myModal" class="p-6 max-w-lg mx-auto rounded shadow-lg bg-white relative">
+<!-- Dialog Element of Category -->
+<dialog id="addCategoryModal" class="p-6 max-w-lg mx-auto rounded shadow-lg bg-white relative">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-900">Add Category</h2>
         <button id="close" class="text-gray-500 hover:text-gray-800">
@@ -54,37 +54,64 @@ View::startSection('content');
         </button>
     </div>
     <!-- Form inside the dialog -->
-    <form method="POST" action="/category" id="categoryForm">
+    <form method="POST" action="/category" id="categoryForm" hx-post="/category" hx-trigger="submit" hx-target="this" hx-swap="none" hx-redirect="/category">
         <label for="category_name" class="block text-sm font-medium text-gray-700">Category Name:</label>
-        <input type="text" id="category_name" name="category_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-        
+        <input type="text" id="category_name" name="category_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <p id="category_name_err" class="error-validation text-red-500 text-sm hidden"></p>
         <button type="submit" class="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-700">
             Submit
         </button>
     </form>
 </dialog>
+
+<script src="public/js/serialize-helper.js"></script>
 <script defer>
+// Category Part
 // Get the dialog element
-const dialog = document.getElementById('myModal');
+const addCategoryDialog = document.getElementById('addCategoryModal');
 
 // Get the button that opens the dialog
-const openButton = document.getElementById('openButtonDialog');
+const openCategoryButton = document.getElementById('openButtonDialog');
 
 // Get the button that closes the dialog
-const closeButton = document.getElementById('close');
+const closeCategoryButton = document.getElementById('close');
 
 // When the user clicks the open button, show the dialog
-openButton.addEventListener('click', function() {
-    dialog.showModal(); // Use dialog.show() if you do not need it to be modal
+openCategoryButton.addEventListener('click', function() {
+    addCategoryDialog.showModal(); // Use dialog.show() if you do not need it to be modal
 });
 
 // When the user clicks the close button, close the dialog
-closeButton.addEventListener('click', function() {
-    dialog.close();
+closeCategoryButton.addEventListener('click', function() {
+    addCategoryDialog.close();
+});
+
+document.getElementById('categoryForm').addEventListener('htmx:afterRequest', async function(event) {
+    if (event.detail.xhr.status === 201) {
+        addCategoryDialog.close(); // Close the add dialog after successful submission
+
+        Swal.fire({
+            icon: "success",
+            title: "Successfully saved category",
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            // Redirect to the category page after the timer completes
+            window.location.href = "/category";
+        });
+    } else {
+        const errors = JSON.parse(event.detail.xhr.responseText);
+        Object.keys(errors).forEach((key) => {
+            const errorElement = document.getElementById(`${key}_err`);
+            if (errorElement) {
+                errorElement.innerHTML = errors[key];
+                errorElement.classList.remove('hidden');
+            }
+        });
+    }
 });
 
 </script>
-
 
 <?php
 View::endSection('content');
