@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\View;
 
 View::startSection('content');
@@ -44,8 +45,8 @@ View::startSection('content');
         <label for="supplier_name" class="block text-sm font-medium text-gray-700">Supplier Name:</label>
         <input type="text" id="supplier_name" name="supplier_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         <p id="supplier_name_err" class="error-validation text-red-500 text-sm hidden"></p>
-        <label for="phone_name" class="block text-sm font-medium text-gray-700">Phone Number:</label>
-        <input type="text" id="phone_name" name="phone_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         <p id="supplier_phone_err" class="error-validation text-red-500 text-sm hidden"></p>
         <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
         <input type="text" id="email" name="email" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -59,7 +60,7 @@ View::startSection('content');
 <dialog id="editModal" class="p-6 max-w-lg mx-auto rounded shadow-lg bg-white relative">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-900">Edit Supplier</h2>
-        <button onclick="closeEditDialog()"  class="text-gray-500 hover:text-gray-800">
+        <button onclick="closeEditDialog()" class="text-gray-500 hover:text-gray-800">
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -78,125 +79,125 @@ View::startSection('content');
 
 <script src="public/js/serialize-helper.js"></script>
 <script defer>
-// Get the dialog element
-const addDialog = document.getElementById('addModal');
-const editDialog = document.getElementById('editModal');
-const closeEditDialogButton = document.getElementById('closeEditDialog');
+    // Get the dialog element
+    const addDialog = document.getElementById('addModal');
+    const editDialog = document.getElementById('editModal');
+    const closeEditDialogButton = document.getElementById('closeEditDialog');
 
-// Get the button that opens the addDialog
-const openButton = document.getElementById('openButtonDialog');
+    // Get the button that opens the addDialog
+    const openButton = document.getElementById('openButtonDialog');
 
-// Get the button that closes the addDialog
-const closeButton = document.getElementById('close');
+    // Get the button that closes the addDialog
+    const closeButton = document.getElementById('close');
 
 
-const clearFormErrors = () => {
-    const errorElements = document.querySelectorAll('.error-validation');
-    errorElements.forEach(element => {
-        element.innerHTML = '';
-        element.classList.add('hidden');
+    const clearFormErrors = () => {
+        const errorElements = document.querySelectorAll('.error-validation');
+        errorElements.forEach(element => {
+            element.innerHTML = '';
+            element.classList.add('hidden');
+        });
+    }
+
+    const showEditDialog = async (supplierid) => {
+        const dataEdited = await fetch(`/supplier/${supplierid}`);
+        const jsonObj = await dataEdited.json();
+        const form = document.getElementById("editSupplierForm");
+
+        fillForm(form, jsonObj);
+        editDialog.showModal();
+        clearFormErrors();
+    }
+
+    const closeEditDialog = () => {
+        editDialog.close();
+        clearFormErrors();
+    }
+
+    // When the user clicks the close button, close the addDialog
+    closeButton.addEventListener('click', function() {
+        addDialog.close();
+        clearFormErrors();
+        clearForm();
     });
-}
 
-const showEditDialog =  async (supplierid) => {
-    const dataEdited = await fetch(`/supplier/${supplierid}`);
-    const jsonObj = await dataEdited.json();
-    const form = document.getElementById("editSupplierForm");
+    openButton.addEventListener('click', function() {
+        addDialog.showModal();
+        clearFormErrors();
+        clearForm();
+    })
 
-    fillForm(form, jsonObj);
-    editDialog.showModal();
-    clearFormErrors();
-}
+    document.getElementById('supplierForm').addEventListener('htmx:afterRequest', async function(event) {
+        if (event.detail.xhr.status === 201) {
+            addDialog.close(); // Close the add dialog after successful submission
+            await loadSupplier();
+            clearForm(event.detail.target);
 
-const closeEditDialog = () => {
-    editDialog.close();
-    clearFormErrors();
-}
-
-// When the user clicks the close button, close the addDialog
-closeButton.addEventListener('click', function() {
-    addDialog.close();
-    clearFormErrors();
-    clearForm();
-});
-
-openButton.addEventListener('click', function(){
-    addDialog.showModal();
-    clearFormErrors();
-    clearForm();
-})
-
-document.getElementById('supplierForm').addEventListener('htmx:afterRequest', async function(event) {
-    if (event.detail.xhr.status === 201) {
-        addDialog.close(); // Close the add dialog after successful submission
-        await loadSupplier();
-        clearForm(event.detail.target);
-
-        Swal.fire({
-            icon: "success",
-            title: "Successfully saved supplier",
-            showConfirmButton: false,
-            timer: 1500
-        });
-    } else {
-        const errors = JSON.parse(event.detail.xhr.responseText);
-        Object.keys(errors).forEach((key) => {
-            const errorElement = document.getElementById(`${key}_err`);
-            if (errorElement) {
-                errorElement.innerHTML = errors[key];
-                errorElement.classList.remove('hidden');
-            }
-        });
-    }
-});
-
-document.getElementById('editSupplierForm').addEventListener('htmx:afterRequest', async function(event) {
-    if (event.detail.xhr.status === 201) {
-        editDialog.close(); // Close the add dialog after successful submission
-        await loadSupplier();
-        clearForm(event.detail.target);
-
-        Swal.fire({
-            icon: "success",
-            title: "Successfully saved supplier",
-            showConfirmButton: false,
-            timer: 1500
-        });
-    } else {
-        const errors = JSON.parse(event.detail.xhr.responseText);
-        Object.keys(errors).forEach((key) => {
-            const errorElement = document.getElementById(`edit_${key}_err`);
-            if (errorElement) {
-                errorElement.innerHTML = errors[key];
-                errorElement.classList.remove('hidden');
-            }
-        });
-    }
-});
-
-
-const loadSupplier = async () => {
-    try {
-        const response = await fetch('/api/supplier', {
-            method: 'GET'
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Something went wrong');
+            Swal.fire({
+                icon: "success",
+                title: "Successfully saved supplier",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            const errors = JSON.parse(event.detail.xhr.responseText);
+            Object.keys(errors).forEach((key) => {
+                const errorElement = document.getElementById(`${key}_err`);
+                if (errorElement) {
+                    errorElement.innerHTML = errors[key];
+                    errorElement.classList.remove('hidden');
+                }
+            });
         }
+    });
 
-        const supplier = await response.json();
-        const tableBody = document.getElementById('supplierTableBody');
+    document.getElementById('editSupplierForm').addEventListener('htmx:afterRequest', async function(event) {
+        if (event.detail.xhr.status === 201) {
+            editDialog.close(); // Close the add dialog after successful submission
+            await loadSupplier();
+            clearForm(event.detail.target);
 
-        // Clear the existing table body content
-        tableBody.innerHTML = '';
+            Swal.fire({
+                icon: "success",
+                title: "Successfully saved supplier",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            const errors = JSON.parse(event.detail.xhr.responseText);
+            Object.keys(errors).forEach((key) => {
+                const errorElement = document.getElementById(`edit_${key}_err`);
+                if (errorElement) {
+                    errorElement.innerHTML = errors[key];
+                    errorElement.classList.remove('hidden');
+                }
+            });
+        }
+    });
 
-        // Populate the table with the new data
-        supplier.forEach(supplier => {
-            const row = document.createElement('tr');
-            row.classList.add('bg-white', 'hover:bg-gray-100');
-            row.innerHTML = `
+
+    const loadSupplier = async () => {
+        try {
+            const response = await fetch('/api/supplier', {
+                method: 'GET'
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Something went wrong');
+            }
+
+            const supplier = await response.json();
+            const tableBody = document.getElementById('supplierTableBody');
+
+            // Clear the existing table body content
+            tableBody.innerHTML = '';
+
+            // Populate the table with the new data
+            supplier.forEach(supplier => {
+                const row = document.createElement('tr');
+                row.classList.add('bg-white', 'hover:bg-gray-100');
+                row.innerHTML = `
                 <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.supplier_name}</td>
                 <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.phone_number}</td>
                 <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.email}</td>
@@ -205,44 +206,44 @@ const loadSupplier = async () => {
                     <button onclick="deleteSupplier(${supplier.id})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</button>
                 </td>
             `;
-            tableBody.appendChild(row);
-        });
+                tableBody.appendChild(row);
+            });
 
-    } catch (error) {
-        alert("Error: " + error.message);
-    }
-}
-
-function clearForm() {
-    document.getElementById('supplierForm').reset();
-}
-
-const deleteSupplier = async (id) => {
-    const result = await Swal.fire({
-        title: "Delete?",
-        text: "Do you want to delete this Supplier",
-        icon: "warning",
-        confirmButtonText: "Yes",
-        showDenyButton: true,
-        denyButtonText: "No",
-    });
-
-    if (result.isConfirmed) {
-        const response = await fetch(`/supplier/${id}`, {
-            method: "DELETE"
-        });
-
-        if (response.ok) {
-            Swal.fire("Deleted!", "Supplier has been deleted.", "success");
-            await loadSupplier(); // Refresh the categories after deletion
-        } else {
-            Swal.fire("Error!", "Supplier could not be deleted.", "error");
+        } catch (error) {
+            alert("Error: " + error.message);
         }
     }
-}
 
-// Initial load of categories
-loadSupplier();
+    function clearForm() {
+        document.getElementById('supplierForm').reset();
+    }
+
+    const deleteSupplier = async (id) => {
+        const result = await Swal.fire({
+            title: "Delete?",
+            text: "Do you want to delete this Supplier",
+            icon: "warning",
+            confirmButtonText: "Yes",
+            showDenyButton: true,
+            denyButtonText: "No",
+        });
+
+        if (result.isConfirmed) {
+            const response = await fetch(`/supplier/${id}`, {
+                method: "DELETE"
+            });
+
+            if (response.ok) {
+                Swal.fire("Deleted!", "Supplier has been deleted.", "success");
+                await loadSupplier(); // Refresh the categories after deletion
+            } else {
+                Swal.fire("Error!", "Supplier could not be deleted.", "error");
+            }
+        }
+    }
+
+    // Initial load of categories
+    loadSupplier();
 </script>
 
 <?php

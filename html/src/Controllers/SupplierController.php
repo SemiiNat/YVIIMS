@@ -12,7 +12,8 @@ class SupplierController
 {
     private SupplierService $supplierService;
 
-    public function __construct(SupplierService $supplierService){
+    public function __construct(SupplierService $supplierService)
+    {
         $this->supplierService = $supplierService;
     }
 
@@ -22,40 +23,42 @@ class SupplierController
 
         return View::make('dashboard', ['content' => $contentView]);
     }
-    public function get(Request $request, Response $response){
+    public function get(Request $request, Response $response)
+    {
         $data = $this->supplierService->getSupplier();
 
         return $response->sendJson($data);
     }
 
     public function getById(Request $request, Response $response, int $id)
-    {   
-        if(empty($id)){
-            return $response->sendJson(["error"=>"no id found"], 400);
+    {
+        if (empty($id)) {
+            return $response->sendJson(["error" => "no id found"], 400);
         }
-        
+
         $supplier = $this->supplierService->getSupplierById($id);
-        if (empty($supplier)){
-            return $response->sendJson(["error"=> "Supplier with $id not found"],404);
+        if (empty($supplier)) {
+            return $response->sendJson(["error" => "Supplier with $id not found"], 404);
         }
         return $response->sendJson($supplier);
     }
 
-    public function delete(Request $request, Response $response, int $id) {
-        if(empty($id)){
-            return $response->sendJson(["error"=> "no id found"],404);
+    public function delete(Request $request, Response $response, int $id)
+    {
+        if (empty($id)) {
+            return $response->sendJson(["error" => "no id found"], 404);
         }
 
         $supplier = $this->supplierService->getSupplierById($id);
 
-        if (empty($category)){
-            return $response->sendJson(["error"=> "Supplier with $id not found"],404);
+        if (empty($supplier)) {
+            return $response->sendJson(["error" => "Supplier with $id not found"], 404);
         }
 
         $this->supplierService->deleteSupplier($id);
     }
 
-    public function save(Request $request,Response $response)
+    public function save(Request $request, Response $response)
     {
         $data = $request->getBody();
 
@@ -65,6 +68,6 @@ class SupplierController
             return $response->sendJson($validationError, 422);
         }
 
-        return $response->sendJson(['success'=> true], 201);
+        return $response->sendJson(['success' => true], 201);
     }
 }

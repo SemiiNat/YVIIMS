@@ -22,25 +22,25 @@ $container->register(DatabaseHelper::class, function () {
 
 $container->register(AuthController::class, function () use ($container) {
     $authService = $container->get(AuthService::class);
-return new AuthController($authService);
+    return new AuthController($authService);
 });
 
 $container->register(DashboardController::class, function () {
     return new DashboardController();
 });
 
-$container->register(ProductController::class, function() use ($container) {
+$container->register(ProductController::class, function () use ($container) {
     $productService = $container->get(ProductService::class);
     $categoryService = $container->get(CategoryService::class);
     return new ProductController($productService, $categoryService);
 });
 
-$container->register(CategoryController::class, function() use ($container) {
+$container->register(CategoryController::class, function () use ($container) {
     $categoryService = $container->get(CategoryService::class);
     return new CategoryController($categoryService);
 });
 
-$container->register(SupplierController::class, function() use ($container) {
+$container->register(SupplierController::class, function () use ($container) {
     $supplierService = $container->get(SupplierService::class);
     return new SupplierController($supplierService);
 });
