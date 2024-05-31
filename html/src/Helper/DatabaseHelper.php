@@ -3,10 +3,11 @@
 namespace App\Helper;
 
 use mysqli;
-use mysqli_stmt;
 
 /**
- * The DatabaseHelper class provides methods for interacting with the database.
+ * Class DatabaseHelper
+ *
+ * A helper class for interacting with the database using MySQLi.
  */
 class DatabaseHelper
 {
@@ -18,9 +19,11 @@ class DatabaseHelper
     public $con = null;
 
     /**
-     * Constructs a new DatabaseHelper instance.
+     * DatabaseHelper constructor.
      *
-     * @throws \Exception if there is a connection error.
+     * Initializes the database connection using the provided environment variables.
+     *
+     * @throws \Exception if there is an error connecting to the database.
      */
     private function __construct()
     {
@@ -36,208 +39,127 @@ class DatabaseHelper
     }
 
     /**
-     * Returns the singleton instance of DatabaseHelper.
+     * Get the instance of the DatabaseHelper class.
      *
-     * @return DatabaseHelper The singleton instance.
-     * @throws \Exception if there is an error creating the instance.
+     * @return DatabaseHelper The instance of the DatabaseHelper class.
      */
     public static function getInstance()
     {
         if (self::$instance == null) {
-            try {
-                self::$instance = new DatabaseHelper();
-            } catch (\Exception $e) {
-                error_log($e->getMessage());
-                throw $e;
-            }
+            self::$instance = new DatabaseHelper();
         }
         return self::$instance;
     }
 
     /**
-     * Closes the database connection when the object is destroyed.
-     */
-    public function __destruct()
-    {
-        $this->closeConnection();
-    }
-
-    /**
-     * Closes the database connection.
-     */
-    protected function closeConnection()
-    {
-        if ($this->con != null) {
-            $this->con->close();
-            $this->con = null;
-        }
-    }
-
-    /**
-     * Executes a SELECT query and returns multiple rows from the database.
+     * Execute a SELECT query and return multiple rows.
      *
-     * @param string $sql The SQL query.
-     * @param array $params The query parameters.
-     * @return array The result rows.
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to bind to the query.
+     * @return array The result set as an array of associative arrays.
      */
     public function getMany($sql, $params = [])
     {
         $stmt = $this->con->prepare($sql);
-
         if (!$stmt) {
             error_log('Failed to prepare statement: ' . $this->con->error);
             return [];
         }
-
         if ($params) {
             $this->bindParams($stmt, $params);
         }
-
         $stmt->execute();
-
         $result = $stmt->get_result();
         $rows = [];
-
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
-
         return $rows;
     }
 
     /**
-     * Executes a query that does not return a result set.
+     * Execute a SELECT query and return a single row.
      *
-     * @param string $sql The SQL query.
-     * @param array $params The query parameters.
-     */
-    public function query($sql, $params = [])
-    {
-        $stmt = $this->con->prepare($sql);
-
-        if (!$stmt) {
-            error_log('Failed to prepare statement: ' . $this->con->error);
-            return false;
-        }
-
-        if ($params) {
-            $this->bindParams($stmt, $params);
-        }
-
-        $stmt->execute();
-    }
-
-    /**
-     * Executes a SELECT query and returns a single row from the database.
-     *
-     * @param string $sql The SQL query.
-     * @param array $params The query parameters.
-     * @return array|null The result row or null if no row is found.
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to bind to the query.
+     * @return array|null The result set as an associative array or null if no rows are found.
      */
     public function getOne($sql, $params = [])
     {
         $stmt = $this->con->prepare($sql);
-
         if (!$stmt) {
             error_log('Failed to prepare statement: ' . $this->con->error);
             return null;
         }
-
         if ($params) {
             $this->bindParams($stmt, $params);
         }
-
         $stmt->execute();
-
         $result = $stmt->get_result();
-
         return $result->fetch_assoc();
     }
 
     /**
-     * Binds query parameters to a prepared statement.
+     * Execute a query that does not return a result set.
      *
-     * @param mysqli_stmt $stmt The prepared statement.
-     * @param array $params The query parameters.
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to bind to the query.
+     * @return bool True if the query was successful, false otherwise.
      */
-    private function bindParams($stmt, $params)
+    public function query($sql, $params = [])
     {
+        $stmt = $this->con->prepare($sql);
         if (!$stmt) {
-            throw new \Exception("Failed to prepare statement.");
+            error_log('Failed to prepare statement: ' . $this->con->error);
+            return false;
         }
-
-        $types = '';
-        foreach ($params as $param) {
-            if (is_int($param)) {
-                $types .= 'i';
-            } elseif (is_float($param)) {
-                $types .= 'd';
-            } elseif (is_string($param)) {
-                $types .= 's';
-            } else {
-                $types .= 'b';
-            }
+        if ($params) {
+            $this->bindParams($stmt, $params);
         }
-
-        $result = $stmt->bind_param($types, ...$params);
-        if (!$result) {
-            throw new \Exception("Failed to bind parameters.");
-        }
+        $stmt->execute();
     }
 
     /**
-     * Inserts a new row into the specified table.
+     * Insert a new row into the specified table.
      *
-     * @param string $table The table name.
-     * @param array $data The data to be inserted.
-     * @return int|false The inserted row ID or false if the insertion fails.
+     * @param string $table The name of the table.
+     * @param array $data An associative array of column names and values.
+     * @return int|bool The ID of the inserted row if successful, false otherwise.
      */
     public function create($table, array $data)
     {
         $keys = array_keys($data);
         $fields = implode(', ', $keys);
         $placeholders = implode(', ', array_fill(0, count($keys), '?'));
-
         $sql = "INSERT INTO {$table} ({$fields}) VALUES ({$placeholders})";
-
         $stmt = $this->con->prepare($sql);
         if (!$stmt) {
             error_log('Failed to prepare statement: ' . $this->con->error);
             return false;
         }
-
         $this->bindParams($stmt, array_values($data));
         $result = $stmt->execute();
-
-        if ($result === false) {
-            error_log('Error: ' . $stmt->error);
-            return false;
-        }
-
-        return $this->con->insert_id;
+        return $result ? $this->con->insert_id : false;
     }
 
     /**
-     * Updates a row in the specified table.
+     * Update a row in the specified table.
      *
-     * @param string $table_name The table name.
-     * @param array $update_array The data to be updated.
-     * @param int $id The ID of the row to be updated.
-     * @return bool True if the update is successful, false otherwise.
+     * @param string $table_name The name of the table.
+     * @param array $update_array An associative array of column names and new values.
+     * @param int $id The ID of the row to update.
+     * @return bool True if the update was successful, false otherwise.
      */
     public function update($table_name, $update_array, $id)
     {
         $table_fields = $this->getMany("DESCRIBE {$table_name}");
-
         if (empty($table_fields) || empty($update_array)) {
             return false;
         }
-
         $table_fields_array = [];
         foreach ($table_fields as $table_field) {
             $table_fields_array[] = $table_field['Field'];
         }
-
         $updates = "";
         $params = [];
         foreach ($update_array as $key => $value) {
@@ -246,7 +168,6 @@ class DatabaseHelper
                 $params[] = $value;
             }
         }
-
         $updates = rtrim($updates, ', ');
         $params[] = $id; // For WHERE clause
         $stmt = $this->con->prepare("UPDATE {$table_name} SET {$updates} WHERE id = ?");
@@ -254,42 +175,16 @@ class DatabaseHelper
             error_log('Failed to prepare statement: ' . $this->con->error);
             return false;
         }
-
         $this->bindParams($stmt, $params);
-
         return $stmt->execute();
     }
 
     /**
-     * Begins a database transaction.
-     */
-    public function beginTransaction()
-    {
-        $this->con->begin_transaction();
-    }
-
-    /**
-     * Commits a database transaction.
-     */
-    public function commit()
-    {
-        $this->con->commit();
-    }
-
-    /**
-     * Rolls back a database transaction.
-     */
-    public function rollback()
-    {
-        $this->con->rollback();
-    }
-
-    /**
-     * Soft deletes a row in the specified table.
+     * Soft delete a row in the specified table by setting the "is_deleted" column to 1.
      *
-     * @param string $table_name The table name.
-     * @param int $id The ID of the row to be soft deleted.
-     * @return bool True if the soft delete is successful, false otherwise.
+     * @param string $table_name The name of the table.
+     * @param int $id The ID of the row to delete.
+     * @return bool True if the delete was successful, false otherwise.
      */
     public function soft_delete($table_name, $id)
     {
@@ -303,11 +198,11 @@ class DatabaseHelper
     }
 
     /**
-     * Hard deletes a row in the specified table.
+     * Hard delete a row from the specified table.
      *
-     * @param string $table_name The table name.
-     * @param int $id The ID of the row to be hard deleted.
-     * @return bool True if the hard delete is successful, false otherwise.
+     * @param string $table_name The name of the table.
+     * @param int $id The ID of the row to delete.
+     * @return bool True if the delete was successful, false otherwise.
      */
     public function hard_delete($table_name, $id)
     {
@@ -318,5 +213,56 @@ class DatabaseHelper
         }
         $stmt->bind_param('i', $id);
         return $stmt->execute();
+    }
+
+    /**
+     * Bind the parameters to a prepared statement.
+     *
+     * @param mysqli_stmt $stmt The prepared statement.
+     * @param array $params The parameters to bind.
+     * @throws \Exception if there is an error preparing the statement.
+     */
+    private function bindParams($stmt, $params)
+    {
+        if (!$stmt) {
+            throw new \Exception("Failed to prepare statement.");
+        }
+        $types = '';
+        foreach ($params as $param) {
+            if (is_int($param)) {
+                $types .= 'i';
+            } elseif (is_float($param)) {
+                $types .= 'd';
+            } elseif (is_string($param)) {
+                $types .= 's';
+            } else {
+                $types .= 'b';
+            }
+        }
+        $stmt->bind_param($types, ...$params);
+    }
+
+    /**
+     * Begin a database transaction.
+     */
+    public function beginTransaction()
+    {
+        $this->con->begin_transaction();
+    }
+
+    /**
+     * Commit the current database transaction.
+     */
+    public function commit()
+    {
+        $this->con->commit();
+    }
+
+    /**
+     * Rollback the current database transaction.
+     */
+    public function rollback()
+    {
+        $this->con->rollback();
     }
 }

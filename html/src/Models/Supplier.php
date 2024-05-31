@@ -8,6 +8,7 @@ use App\Helper\Validation;
 class Supplier extends BaseModel
 {
     protected $table = 'supplier';
+    protected $primaryKey = 'id';
     protected $validation;
     protected $requiredFields = [
         "supplier_name",
@@ -23,14 +24,7 @@ class Supplier extends BaseModel
 
     function validate($data): array
     {
-        $errors = [];
-
-        $missingFields = $this->requiredFields($this->requiredFields, $data);
-        if (!empty($missingFields)) {
-            foreach ($missingFields as $field) {
-                $errors[$field] = "$field as required";
-            }
-        }
+        $errors = parent::validate($data);
 
         if (!$this->validation->isUnique($this->table, 'supplier_name', $data['supplier_name'])) {
             $errors['category_name'] = 'Category name already exists';

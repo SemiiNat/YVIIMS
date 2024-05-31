@@ -6,8 +6,8 @@ use App\Helper\Container;
 use App\Helper\DatabaseHelper;
 use App\Models\Category;
 
-class CategoryService {
-
+class CategoryService
+{
     private Category $categoryModel;
     private DatabaseHelper $db;
     private $lastErrors = [];
@@ -18,11 +18,13 @@ class CategoryService {
         $this->db = Container::get(DatabaseHelper::class);
     }
 
-    public function getCategory() : Array {
+    public function getCategory(): array
+    {
         return $this->categoryModel->findAll();
     }
 
-    public function getCategoryById(int $id) {
+    public function getCategoryById(int $id)
+    {
         return $this->categoryModel->find($id);
     }
 
@@ -30,28 +32,29 @@ class CategoryService {
     {
         $this->db->beginTransaction();
         $validationErrors = [];
-    
+
         try {
             $validationErrors = $this->categoryModel->validate($data);
-    
+
             if (!empty($validationErrors)) {
                 throw new \Exception("Validation Error");
             }
-    
+
             $this->categoryModel->save($data);
             $this->db->commit();
         } catch (\Exception $e) {
-            $this->db->rollBack();
+            $this->db->rollback();
             if ($e->getMessage() === "Validation Error") {
                 return $validationErrors;
             }
             throw $e;
         }
-    
+
         return $validationErrors;
     }
 
-    public function deleteCategory(int $id){
+    public function deleteCategory(int $id)
+    {
         $this->categoryModel->delete($id);
     }
 
