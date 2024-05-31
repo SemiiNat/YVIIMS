@@ -32,7 +32,8 @@ $container->register(DashboardController::class, function () {
 $container->register(ProductController::class, function () use ($container) {
     $productService = $container->get(ProductService::class);
     $categoryService = $container->get(CategoryService::class);
-    return new ProductController($productService, $categoryService);
+    $supplierService = $container->get(SupplierService::class);
+    return new ProductController($productService, $categoryService, $supplierService);
 });
 
 $container->register(CategoryController::class, function () use ($container) {
