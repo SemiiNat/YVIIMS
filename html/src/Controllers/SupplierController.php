@@ -70,4 +70,37 @@ class SupplierController
 
         return $response->sendJson(['success' => true], 201);
     }
+
+    // public function update(Request $request, Response $response, int $id)
+    // {
+    //     $data = $request->getBody();
+    //     $validationError = $this->supplierService->updateSupplier($id, $data);
+    
+    //     if (!empty($validationError)) {
+    //         return $response->sendJson($validationError, 422);
+    //     }
+    
+    //     return $response->sendJson(['success' => true], 200);
+    // }
+
+    public function update(Request $request, Response $response, int $id)
+{
+    error_log("Update method called with ID: $id");
+    $data = $request->getBody();
+    error_log("Request data: " . print_r($data, true));
+
+    $validationError = $this->supplierService->updateSupplier($id, $data);
+
+    if (!empty($validationError)) {
+        error_log("Validation errors: " . print_r($validationError, true));
+        return $response->sendJson($validationError, 422);
+    }
+
+    return $response->sendJson(['success' => true], 200);
+}
+    
+    
+    
+    
+
 }

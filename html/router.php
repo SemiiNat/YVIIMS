@@ -36,9 +36,10 @@ $routes->add(new Route('DELETE', '/category/{id}', [CategoryController::class, '
 
 // supplier controller
 $routes->add(new Route('POST', '/supplier', [SupplierController::class, 'save']));
+$routes->add(new Route('GET', '/supplier', [SupplierController::class, 'index']));
 $routes->add(new Route('GET', '/api/supplier', [SupplierController::class, 'get']));
 $routes->add(new Route('GET', '/supplier/{id}', [SupplierController::class, 'getById']));
-$routes->add(new Route('DELETE', '/supplier{id}', [SupplierController::class, 'delete']));
-$routes->add(new Route('GET', '/supplier', [SupplierController::class, 'index']));
+$routes->add(new Route('PUT', '/supplier/{id}', [SupplierController::class, 'update']));
+$routes->add(new Route('DELETE', '/supplier/{id}', [SupplierController::class, 'delete']));
 
 $router->run();

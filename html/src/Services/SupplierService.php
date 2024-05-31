@@ -59,4 +59,34 @@ class SupplierService {
     {
         return $this->lastErrors;
     }
+
+    public function updateSupplier($id, $data): array
+    {
+        $this->db->beginTransaction();
+        $validationErrors = [];
+    
+        try {
+            $validationErrors = $this->supplierModel->validate($data);
+    
+            if (!empty($validationErrors)) {
+                throw new \Exception("Validation Error");
+            }
+    
+            $this->supplierModel->update($id, $data);
+            $this->db->commit();
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            if ($e->getMessage() === "Validation Error") {
+                return $validationErrors;
+            }
+            throw $e;
+        }
+    
+        return $validationErrors;
+    }
+    
+    
+    
+    
+
 }

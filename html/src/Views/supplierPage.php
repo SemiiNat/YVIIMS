@@ -32,7 +32,7 @@ View::startSection('content');
     </div>
 </div>
 
-<!-- Dialog Element -->
+<!-- Add Supplier Dialog -->
 <dialog id="addModal" class="p-6 max-w-lg mx-auto rounded shadow-lg bg-white relative">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-900">Add Supplier</h2>
@@ -57,39 +57,40 @@ View::startSection('content');
     </form>
 </dialog>
 
+<!-- Edit Supplier Dialog -->
 <dialog id="editModal" class="p-6 max-w-lg mx-auto rounded shadow-lg bg-white relative">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-900">Edit Supplier</h2>
-        <button onclick="closeEditDialog()" class="text-gray-500 hover:text-gray-800">
+        <button id="closeEditDialog" class="text-gray-500 hover:text-gray-800" onclick="closeEditDialog()">
             <i class="fas fa-times"></i>
         </button>
     </div>
     <!-- Form inside the dialog -->
-    <form method="POST" id="editSupplierForm" hx-post="/supplier" hx-trigger="submit" hx-swap="none" hx-on="htmx:afterRequest: loadSupplier">
-        <input value="id" type="hidden" name="id" />
-        <label for="supplier_name" class="block text-sm font-medium text-gray-700">Supplier Name:</label>
-        <input type="text" id="supplier_name" name="supplier_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <form method="POST" id="editSupplierForm" hx-put="" hx-trigger="submit" hx-swap="none" hx-on="htmx:afterRequest: loadSupplier">
+        <label for="edit_supplier_name" class="block text-sm font-medium text-gray-700">Supplier Name:</label>
+        <input type="text" id="edit_supplier_name" name="supplier_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         <p id="edit_supplier_name_err" class="error-validation text-red-500 text-sm hidden"></p>
+        <label for="edit_phone_number" class="block text-sm font-medium text-gray-700">Phone Number:</label>
+        <input type="text" id="edit_phone_number" name="phone_number" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <p id="edit_supplier_phone_err" class="error-validation text-red-500 text-sm hidden"></p>
+        <label for="edit_email" class="block text-sm font-medium text-gray-700">Email:</label>
+        <input type="text" id="edit_email" name="email" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <p id="edit_supplier_email_err" class="error-validation text-red-500 text-sm hidden"></p>
         <button type="submit" class="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-700">
             Update
         </button>
     </form>
 </dialog>
 
-
 <script src="public/js/serialize-helper.js"></script>
 <script defer>
-    // Get the dialog element
+    // Get the dialog elements
     const addDialog = document.getElementById('addModal');
     const editDialog = document.getElementById('editModal');
-    const closeEditDialogButton = document.getElementById('closeEditDialog');
 
-    // Get the button that opens the addDialog
+    // Get the buttons that open the dialogs
     const openButton = document.getElementById('openButtonDialog');
-
-    // Get the button that closes the addDialog
     const closeButton = document.getElementById('close');
-
 
     const clearFormErrors = () => {
         const errorElements = document.querySelectorAll('.error-validation');
@@ -97,39 +98,47 @@ View::startSection('content');
             element.innerHTML = '';
             element.classList.add('hidden');
         });
-    }
+    };
 
-    const showEditDialog = async (supplierid) => {
-        const dataEdited = await fetch(`/supplier/${supplierid}`);
-        const jsonObj = await dataEdited.json();
-        const form = document.getElementById("editSupplierForm");
-
-        fillForm(form, jsonObj);
-        editDialog.showModal();
+    const clearForm = (form) => {
+        form.reset();
         clearFormErrors();
-    }
+    };
 
-    const closeEditDialog = () => {
-        editDialog.close();
-        clearFormErrors();
-    }
+    const showEditDialog = async (supplierId) => {
+    const response = await fetch(`/supplier/${supplierId}`);
+    const data = await response.json();
 
-    // When the user clicks the close button, close the addDialog
+    const form = document.getElementById("editSupplierForm");
+    form.setAttribute('hx-put', `/supplier/${supplierId}`);
+    form.action = `/supplier/${supplierId}`;
+
+    document.getElementById('edit_supplier_name').value = data.supplier_name;
+    document.getElementById('edit_phone_number').value = data.phone_number;
+    document.getElementById('edit_email').value = data.email;
+
+    editDialog.showModal();
+    clearFormErrors();
+};
+
+const closeEditDialog = () => {
+    editDialog.close();
+    clearForm(document.getElementById('editSupplierForm'));
+};
+
     closeButton.addEventListener('click', function() {
         addDialog.close();
-        clearFormErrors();
-        clearForm();
+        clearForm(document.getElementById('supplierForm'));
     });
 
     openButton.addEventListener('click', function() {
         addDialog.showModal();
-        clearFormErrors();
-        clearForm();
-    })
+        clearForm(document.getElementById('supplierForm'));
+    });
 
     document.getElementById('supplierForm').addEventListener('htmx:afterRequest', async function(event) {
         if (event.detail.xhr.status === 201) {
-            addDialog.close(); // Close the add dialog after successful submission
+            addDialog.close();
             await loadSupplier();
             clearForm(event.detail.target);
 
@@ -151,30 +160,36 @@ View::startSection('content');
         }
     });
 
-    document.getElementById('editSupplierForm').addEventListener('htmx:afterRequest', async function(event) {
-        if (event.detail.xhr.status === 201) {
-            editDialog.close(); // Close the add dialog after successful submission
-            await loadSupplier();
-            clearForm(event.detail.target);
-
-            Swal.fire({
-                icon: "success",
-                title: "Successfully saved supplier",
-                showConfirmButton: false,
-                timer: 1500
-            });
-        } else {
-            const errors = JSON.parse(event.detail.xhr.responseText);
-            Object.keys(errors).forEach((key) => {
-                const errorElement = document.getElementById(`edit_${key}_err`);
-                if (errorElement) {
-                    errorElement.innerHTML = errors[key];
-                    errorElement.classList.remove('hidden');
-                }
-            });
-        }
+    document.getElementById('editSupplierForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const response = await fetch(event.target.action, {
+        method: 'PUT',
+        body: formData
     });
 
+    if (response.ok) {
+        editDialog.close();
+        await loadSupplier();
+        clearForm(event.target);
+
+        Swal.fire({
+            icon: "success",
+            title: "Successfully updated supplier",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    } else {
+        const errors = await response.json();
+        Object.keys(errors).forEach((key) => {
+            const errorElement = document.getElementById(`edit_${key}_err`);
+            if (errorElement) {
+                errorElement.innerHTML = errors[key];
+                errorElement.classList.remove('hidden');
+            }
+        });
+    }
+});
 
     const loadSupplier = async () => {
         try {
@@ -187,41 +202,35 @@ View::startSection('content');
                 throw new Error(error.message || 'Something went wrong');
             }
 
-            const supplier = await response.json();
+            const suppliers = await response.json();
             const tableBody = document.getElementById('supplierTableBody');
 
-            // Clear the existing table body content
             tableBody.innerHTML = '';
 
-            // Populate the table with the new data
-            supplier.forEach(supplier => {
+            suppliers.forEach(supplier => {
                 const row = document.createElement('tr');
                 row.classList.add('bg-white', 'hover:bg-gray-100');
                 row.innerHTML = `
-                <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.supplier_name}</td>
-                <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.phone_number}</td>
-                <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.email}</td>
-                <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
-                    <button onClick="showEditDialog(${supplier.id})"  class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Edit</button>
-                    <button onclick="deleteSupplier(${supplier.id})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</button>
-                </td>
-            `;
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.supplier_name}</td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.phone_number}</td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${supplier.email}</td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
+                        <button onClick="showEditDialog(${supplier.id})" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Edit</button>
+                        <button onclick="deleteSupplier(${supplier.id})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</button>
+                    </td>
+                `;
                 tableBody.appendChild(row);
             });
 
         } catch (error) {
             alert("Error: " + error.message);
         }
-    }
-
-    function clearForm() {
-        document.getElementById('supplierForm').reset();
-    }
+    };
 
     const deleteSupplier = async (id) => {
         const result = await Swal.fire({
             title: "Delete?",
-            text: "Do you want to delete this Supplier",
+            text: "Do you want to delete this Supplier?",
             icon: "warning",
             confirmButtonText: "Yes",
             showDenyButton: true,
@@ -235,14 +244,13 @@ View::startSection('content');
 
             if (response.ok) {
                 Swal.fire("Deleted!", "Supplier has been deleted.", "success");
-                await loadSupplier(); // Refresh the categories after deletion
+                await loadSupplier();
             } else {
                 Swal.fire("Error!", "Supplier could not be deleted.", "error");
             }
         }
-    }
+    };
 
-    // Initial load of categories
     loadSupplier();
 </script>
 

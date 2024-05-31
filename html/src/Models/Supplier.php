@@ -27,9 +27,16 @@ class Supplier extends BaseModel
         $errors = parent::validate($data);
 
         if (!$this->validation->isUnique($this->table, 'supplier_name', $data['supplier_name'])) {
-            $errors['category_name'] = 'Category name already exists';
+            $errors['supplier_name'] = 'Supplier name already exists';
         }
-
+        
         return $errors;
     }
+
+    public function update($id, $data)
+    {
+        $this->db->update($this->table, $data, [$this->primaryKey => $id]);
+    }    
+    
+
 }

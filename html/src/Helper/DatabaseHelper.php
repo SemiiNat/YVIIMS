@@ -150,7 +150,7 @@ class DatabaseHelper
      * @param int $id The ID of the row to update.
      * @return bool True if the update was successful, false otherwise.
      */
-    public function update($table_name, $update_array, $id)
+    public function update($table_name, $update_array, $conditions)
     {
         $table_fields = $this->getMany("DESCRIBE {$table_name}");
         if (empty($table_fields) || empty($update_array)) {
@@ -169,8 +169,15 @@ class DatabaseHelper
             }
         }
         $updates = rtrim($updates, ', ');
-        $params[] = $id; // For WHERE clause
-        $stmt = $this->con->prepare("UPDATE {$table_name} SET {$updates} WHERE id = ?");
+    
+        $where = [];
+        foreach ($conditions as $column => $value) {
+            $where[] = "{$column} = ?";
+            $params[] = $value;
+        }
+        $where = implode(' AND ', $where);
+    
+        $stmt = $this->con->prepare("UPDATE {$table_name} SET {$updates} WHERE {$where}");
         if (!$stmt) {
             error_log('Failed to prepare statement: ' . $this->con->error);
             return false;
@@ -178,6 +185,8 @@ class DatabaseHelper
         $this->bindParams($stmt, $params);
         return $stmt->execute();
     }
+    
+    
 
     /**
      * Soft delete a row in the specified table by setting the "is_deleted" column to 1.
