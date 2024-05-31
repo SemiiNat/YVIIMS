@@ -206,6 +206,21 @@ abstract class BaseModel
     }
 
     /**
+     * Defines a one-to-one relationship between the current model and a related model.
+     *
+     * @param string $relatedModel The class name of the related model.
+     * @param string $localKey The name of the local key column in the current model's table.
+     * @param string $foreignKey The name of the foreign key column in the related model's table.
+     * @return mixed The related model instance or null if no related model is found.
+     */
+    public function hasOne($relatedModel, $localKey, $foreignKey)
+    {
+        $relatedInstance = new $relatedModel($this->db);
+        $sql = "SELECT * FROM {$relatedInstance->table} WHERE {$foreignKey} = ?";
+        return $this->db->getOne($sql, [$this->{$localKey}]);
+    }
+
+    /**
      * Get the related record from a many-to-one relationship.
      *
      * @param string $relatedModel The related model class name.
@@ -218,5 +233,32 @@ abstract class BaseModel
         $relatedInstance = new $relatedModel();
         $sql = "SELECT * FROM {$relatedInstance->table} WHERE {$ownerKey} = ?";
         return $this->db->getOne($sql, [$this->{$foreignKey}]);
+    }
+
+    /**
+     * Executes a custom SQL query.
+     *
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to bind to the query.
+     * @return mixed The result of the query execution.
+     */
+    public function customQuery($sql, $params = [])
+    {
+        if (strpos(strtoupper($sql), 'SELECT') !== false) {
+            return $this->db->getMany($sql, $params);
+        } else {
+            return $this->db->query($sql, $params);
+        }
+    }
+
+    /**
+     * Soft deletes a record by its ID.
+     *
+     * @param int $id The ID of the record to delete.
+     * @return bool True if the record was successfully soft deleted, false otherwise.
+     */
+    public function soft_delete($id)
+    {
+        return $this->db->soft_delete($this->table, $id);
     }
 }

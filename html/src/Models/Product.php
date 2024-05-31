@@ -32,4 +32,14 @@ class Product extends BaseModel
 
         return $errors;
     }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class, 'product_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'category_id', 'id');
+    }
 }
