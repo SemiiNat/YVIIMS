@@ -25,7 +25,7 @@ View::startSection('content');
         </select>
         <p id="category_id_err" class="error-validation text-red-500 text-sm hidden"></p>
     </div>
-    <!-- <div class="mb-4">
+    <div class="mb-4">
         <label for="suppliers" class="block text-gray-700 text-sm font-bold mb-2">Suppliers:</label>
         <select id="suppliers" name="supplier_ids[]" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500" multiple>
             <?php foreach ($suppliers as $supplier) : ?>
@@ -33,7 +33,7 @@ View::startSection('content');
             <?php endforeach; ?>
         </select>
         <p id="supplier_ids_err" class="error-validation text-red-500 text-sm hidden"></p>
-    </div> -->
+    </div>
     <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
     <textarea id="description" name="description" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
 
@@ -57,7 +57,10 @@ View::startSection('content');
                 showConfirmButton: false,
                 timer: 1500
             });
-        } else {
+            setTimeout(() => {
+                window.location.href = '/product';
+            }, 1500);
+        } else if (event.detail.xhr.status === 422) {
             const errors = JSON.parse(event.detail.xhr.responseText);
             Object.keys(errors).forEach((key) => {
                 const errorElement = document.getElementById(`${key}_err`);
@@ -65,6 +68,13 @@ View::startSection('content');
                     errorElement.innerHTML = errors[key];
                     errorElement.classList.remove('hidden');
                 }
+            });
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: "Something went wrong!",
+                showConfirmButton: false,
+                timer: 1500
             });
         }
     });

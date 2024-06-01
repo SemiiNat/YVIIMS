@@ -50,6 +50,16 @@ class ProductController
     public function save(Request $request, Response $response)
     {
         $data = $request->getBody();
+        unset($data['search_terms']);
+        if (isset($data['category_id'])) {
+            $data['category_id'] = (int)$data['category_id'];
+        }
+        if (isset($data['supplier_ids']) && is_array($data['supplier_ids'])) {
+            $data['supplier_ids'] = array_map('intval', $data['supplier_ids']);
+        } else {
+            $data['supplier_ids'] = [];
+        }
+
         $validationError = $this->productService->createProduct($data);
 
         if (!empty($validationError)) {
