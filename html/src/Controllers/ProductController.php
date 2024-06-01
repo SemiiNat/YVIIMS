@@ -3,6 +3,8 @@
 
 namespace App\Controllers;
 
+use App\Http\Request;
+use App\Http\Response;
 use App\Http\View;
 use App\Services\CategoryService;
 use App\Services\ProductService;
@@ -43,5 +45,18 @@ class ProductController
         ])->render();
 
         return View::make('dashboard', ['content' => $contentView]);
+    }
+
+    public function save(Request $request, Response $response)
+    {
+        $data = $request->getBody();
+        $validationError = $this->productService->createProduct($data);
+
+        if (!empty($validationError)) {
+            $response->sendJson($validationError, 422);
+            return;
+        }
+
+        $response->sendJson(["message" => "Product created successfully"], 201);
     }
 }

@@ -126,22 +126,26 @@ class DatabaseHelper
      * @param array $data An associative array of column names and values.
      * @return int|bool The ID of the inserted row if successful, false otherwise.
      */
-    public function create($table, array $data)
+    public function create($table, array $data): int|bool
     {
-        $keys = array_keys($data);
-        $fields = implode(', ', $keys);
-        $placeholders = implode(', ', array_fill(0, count($keys), '?'));
-        $sql = "INSERT INTO {$table} ({$fields}) VALUES ({$placeholders})";
-        $stmt = $this->con->prepare($sql);
-        if (!$stmt) {
-            error_log('Failed to prepare statement: ' . $this->con->error);
+        try {
+            $keys = array_keys($data);
+            $fields = implode(', ', $keys);
+            $placeholders = implode(', ', array_fill(0, count($keys), '?'));
+            $sql = "INSERT INTO {$table} ({$fields}) VALUES ({$placeholders})";
+            $stmt = $this->con->prepare($sql);
+            if (!$stmt) {
+                error_log('Failed to prepare statement: ' . $this->con->error);
+                return false;
+            }
+            $this->bindParams($stmt, array_values($data));
+            $result = $stmt->execute();
+            return $result ? $this->con->insert_id : false;
+        } catch (\Exception $e) {
+            error_log('Error executing query: ' . $e->getMessage());
             return false;
         }
-        $this->bindParams($stmt, array_values($data));
-        $result = $stmt->execute();
-        return $result ? $this->con->insert_id : false;
     }
-
     /**
      * Update a row in the specified table.
      *
@@ -150,40 +154,38 @@ class DatabaseHelper
      * @param int $id The ID of the row to update.
      * @return bool True if the update was successful, false otherwise.
      */
-    public function update($table_name, $update_array, $conditions)
+    public function update($table_name, $update_array, $id): bool
     {
-        $table_fields = $this->getMany("DESCRIBE {$table_name}");
-        if (empty($table_fields) || empty($update_array)) {
-            return false;
-        }
-        $table_fields_array = [];
-        foreach ($table_fields as $table_field) {
-            $table_fields_array[] = $table_field['Field'];
-        }
-        $updates = "";
-        $params = [];
-        foreach ($update_array as $key => $value) {
-            if (in_array($key, $table_fields_array)) {
-                $updates .= "`{$key}` = ?, ";
-                $params[] = $value;
+        try {
+            $table_fields = $this->getMany("DESCRIBE {$table_name}");
+            if (empty($table_fields) || empty($update_array)) {
+                return false;
             }
-        }
-        $updates = rtrim($updates, ', ');
-    
-        $where = [];
-        foreach ($conditions as $column => $value) {
-            $where[] = "{$column} = ?";
-            $params[] = $value;
-        }
-        $where = implode(' AND ', $where);
-    
-        $stmt = $this->con->prepare("UPDATE {$table_name} SET {$updates} WHERE {$where}");
-        if (!$stmt) {
-            error_log('Failed to prepare statement: ' . $this->con->error);
+            $table_fields_array = [];
+            foreach ($table_fields as $table_field) {
+                $table_fields_array[] = $table_field['Field'];
+            }
+            $updates = "";
+            $params = [];
+            foreach ($update_array as $key => $value) {
+                if (in_array($key, $table_fields_array)) {
+                    $updates .= "`{$key}` = ?, ";
+                    $params[] = $value;
+                }
+            }
+            $updates = rtrim($updates, ', ');
+            $params[] = $id; // For WHERE clause
+            $stmt = $this->con->prepare("UPDATE {$table_name} SET {$updates} WHERE id = ?");
+            if (!$stmt) {
+                error_log('Failed to prepare statement: ' . $this->con->error);
+                return false;
+            }
+            $this->bindParams($stmt, $params);
+            return $stmt->execute();
+        } catch (\Exception $e) {
+            error_log('Error executing query: ' . $e->getMessage());
             return false;
         }
-        $this->bindParams($stmt, $params);
-        return $stmt->execute();
     }
     
     
