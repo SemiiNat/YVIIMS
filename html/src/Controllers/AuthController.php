@@ -39,7 +39,7 @@ class AuthController
      * @param Request $request The login request.
      * @return View|void The login view if authentication fails.
      */
-    public function login(Request $request)
+   public function login(Request $request)
     {
         $data = $request->getBody();
 

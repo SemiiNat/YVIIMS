@@ -9,12 +9,12 @@ class Supplier extends BaseModel
 {
     protected $table = 'supplier';
     protected $primaryKey = 'id';
-    protected $validation;
     protected $requiredFields = [
         "supplier_name",
         "phone_number",
         "email",
     ];
+    protected $validation;
 
     public function __construct(DatabaseHelper $db)
     {
@@ -33,12 +33,10 @@ class Supplier extends BaseModel
         return $errors;
     }
 
-    public function update($id, $data)
+    public function update($id, array $data)
     {
-        $this->db->update($this->table, $data, [$this->primaryKey => $id]);
-    }    
-    
-
+        return $this->db->update($this->table, $data, $id);
+    }
 
     public function products()
     {

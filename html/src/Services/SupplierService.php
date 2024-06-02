@@ -18,7 +18,7 @@ class SupplierService {
         $this->db = Container::get(DatabaseHelper::class);
     }
 
-    public function getSupplier() : Array {
+    public function getSupplier(): array {
         return $this->supplierModel->findAll();
     }
 
@@ -51,7 +51,8 @@ class SupplierService {
         return $validationErrors;
     }
 
-    public function deleteSupplier(int $id){
+    public function deleteSupplier(int $id)
+    {
         $this->supplierModel->delete($id);
     }
 
@@ -84,9 +85,4 @@ class SupplierService {
     
         return $validationErrors;
     }
-    
-    
-    
-    
-
 }

@@ -116,7 +116,7 @@ class DatabaseHelper
         if ($params) {
             $this->bindParams($stmt, $params);
         }
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     /**
@@ -146,6 +146,7 @@ class DatabaseHelper
             return false;
         }
     }
+
     /**
      * Update a row in the specified table.
      *
@@ -187,8 +188,6 @@ class DatabaseHelper
             return false;
         }
     }
-    
-    
 
     /**
      * Soft delete a row in the specified table by setting the "is_deleted" column to 1.
@@ -229,11 +228,11 @@ class DatabaseHelper
     /**
      * Bind the parameters to a prepared statement.
      *
-     * @param mysqli_stmt $stmt The prepared statement.
+     * @param \mysqli_stmt $stmt The prepared statement.
      * @param array $params The parameters to bind.
      * @throws \Exception if there is an error preparing the statement.
      */
-    private function bindParams($stmt, $params)
+    private function bindParams(\mysqli_stmt $stmt, $params)
     {
         if (!$stmt) {
             throw new \Exception("Failed to prepare statement.");

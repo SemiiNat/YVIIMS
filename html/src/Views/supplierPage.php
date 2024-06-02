@@ -66,7 +66,7 @@ View::startSection('content');
         </button>
     </div>
     <!-- Form inside the dialog -->
-    <form method="POST" id="editSupplierForm" hx-put="" hx-trigger="submit" hx-swap="none" hx-on="htmx:afterRequest: loadSupplier">
+    <form method="POST" id="editSupplierForm" hx-trigger="submit" hx-swap="none" hx-on="htmx:afterRequest: loadSupplier">
         <label for="edit_supplier_name" class="block text-sm font-medium text-gray-700">Supplier Name:</label>
         <input type="text" id="edit_supplier_name" name="supplier_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         <p id="edit_supplier_name_err" class="error-validation text-red-500 text-sm hidden"></p>
@@ -106,25 +106,25 @@ View::startSection('content');
     };
 
     const showEditDialog = async (supplierId) => {
-    const response = await fetch(`/supplier/${supplierId}`);
-    const data = await response.json();
+        const response = await fetch(`/supplier/${supplierId}`);
+        const data = await response.json();
 
-    const form = document.getElementById("editSupplierForm");
-    form.setAttribute('hx-put', `/supplier/${supplierId}`);
-    form.action = `/supplier/${supplierId}`;
+        const form = document.getElementById("editSupplierForm");
+        form.setAttribute('hx-put', `/supplier/${supplierId}`);
+        form.action = `/supplier/${supplierId}`;
 
-    document.getElementById('edit_supplier_name').value = data.supplier_name;
-    document.getElementById('edit_phone_number').value = data.phone_number;
-    document.getElementById('edit_email').value = data.email;
+        document.getElementById('edit_supplier_name').value = data.supplier_name;
+        document.getElementById('edit_phone_number').value = data.phone_number;
+        document.getElementById('edit_email').value = data.email;
 
-    editDialog.showModal();
-    clearFormErrors();
-};
+        editDialog.showModal();
+        clearFormErrors();
+    };
 
-const closeEditDialog = () => {
-    editDialog.close();
-    clearForm(document.getElementById('editSupplierForm'));
-};
+    const closeEditDialog = () => {
+        editDialog.close();
+        clearForm(document.getElementById('editSupplierForm'));
+    };
 
     closeButton.addEventListener('click', function() {
         addDialog.close();
@@ -163,9 +163,13 @@ const closeEditDialog = () => {
     document.getElementById('editSupplierForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const response = await fetch(event.target.action, {
+    const supplierId = event.target.action.split('/').pop(); // Extract supplier ID from action URL
+    const response = await fetch(`/supplier/${supplierId}`, {
         method: 'PUT',
-        body: formData
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: new URLSearchParams(formData)
     });
 
     if (response.ok) {
@@ -190,6 +194,7 @@ const closeEditDialog = () => {
         });
     }
 });
+
 
     const loadSupplier = async () => {
         try {
@@ -254,6 +259,4 @@ const closeEditDialog = () => {
     loadSupplier();
 </script>
 
-<?php
-View::endSection('content');
-?>
+<?php View::endSection('content'); ?>

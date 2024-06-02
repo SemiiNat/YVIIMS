@@ -11,15 +11,20 @@ class Request
      */
     public function getBody(): array
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method === 'GET') {
             return $_GET;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($method === 'POST') {
             return $_POST;
         }
 
-        // add other methods as necessary...
+        if (in_array($method, ['PUT', 'DELETE', 'PATCH'])) {
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+            return $data ?: [];
+        }
 
         return [];
     }
