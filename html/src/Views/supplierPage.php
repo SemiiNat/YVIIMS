@@ -164,12 +164,19 @@ View::startSection('content');
     event.preventDefault();
     const formData = new FormData(event.target);
     const supplierId = event.target.action.split('/').pop(); // Extract supplier ID from action URL
+
+    // Convert FormData to JSON
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+
     const response = await fetch(`/supplier/${supplierId}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            'Content-Type': 'application/json'
         },
-        body: new URLSearchParams(formData)
+        body: JSON.stringify(data)
     });
 
     if (response.ok) {
