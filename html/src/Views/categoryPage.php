@@ -191,7 +191,6 @@ const loadCategories = async () => {
             row.innerHTML = `
                 <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${category.category_name}</td>
                 <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
-                    <a class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a>
                     <button onClick="showEditDialog(${category.id})"  class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Edit</button>
                     <button onclick="deleteCategory(${category.id})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</button>
                 </td>

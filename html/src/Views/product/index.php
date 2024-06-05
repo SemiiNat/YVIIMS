@@ -34,7 +34,7 @@ View::startSection('content');
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700"> sample</td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700">sample </td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
-                        <a class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a>
+                        <!-- <a class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a> -->
                         <a class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Edit</a>
                         <a class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</a>
                     </td>
