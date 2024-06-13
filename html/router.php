@@ -26,6 +26,9 @@ $routes->add(new Route('POST', '/logout', [AuthController::class, 'logout']));
 $routes->add(new Route('GET', '/product', [ProductController::class, 'index']));
 $routes->add(new Route('GET', '/product/create', [ProductController::class, 'create']));
 $routes->add(new Route('POST', '/product', [ProductController::class, 'save']));
+$routes->add(new Route('GET', '/product/edit/{id}', [ProductController::class, 'edit'])); // Add this line
+$routes->add(new Route('POST', '/product/update/{id}', [ProductController::class, 'update'])); // Add this line
+
 
 // Category controller
 $routes->add(new Route('POST', '/category', [CategoryController::class, 'save']));

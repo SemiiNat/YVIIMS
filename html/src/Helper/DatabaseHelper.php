@@ -140,6 +140,11 @@ class DatabaseHelper
             }
             $this->bindParams($stmt, array_values($data));
             $result = $stmt->execute();
+            if (!$result) {
+                error_log('Failed to execute statement: ' . $stmt->error);
+                error_log('SQL: ' . $sql);
+                error_log('Data: ' . json_encode($data));
+            }
             return $result ? $this->con->insert_id : false;
         } catch (\Exception $e) {
             error_log('Error executing query: ' . $e->getMessage());
@@ -274,5 +279,71 @@ class DatabaseHelper
     public function rollback()
     {
         $this->con->rollback();
+    }
+
+    /**
+     * Execute a SELECT query and return multiple rows, ordered by a specific column.
+     *
+     * @param string $table The table to query.
+     * @param string $column The column to order by.
+     * @param string $direction The direction to order by ('asc' or 'desc').
+     * @return array The result set as an array of associative arrays.
+     */
+    public function orderBy($table, $column, $direction = 'asc'): array
+    {
+        $sql = "SELECT * FROM {$table} ORDER BY {$column} {$direction}";
+        return $this->getMany($sql);
+    }
+
+    /**
+     * Get the last error message from the database.
+     *
+     * @return string The last error message.
+     */
+    public function getLastError(): string
+    {
+        return $this->con->error;
+    }
+
+    /**
+     * Save the product and inventory data within a transaction.
+     *
+     * @param array $productData The product data to save.
+     * @param array $inventoryData The inventory data to save.
+     * @return int|bool The ID of the inserted product row if successful, false otherwise.
+     */
+    public function saveProductAndInventory(array $productData, array $inventoryData): int|bool
+    {
+        $this->beginTransaction();
+        try {
+            $productId = $this->create('product', $productData);
+            if (!$productId) {
+                throw new \Exception('Failed to save product');
+            }
+            $inventoryData['product_id'] = $productId;
+            $inventoryId = $this->create('inventory', $inventoryData);
+            if (!$inventoryId) {
+                throw new \Exception('Failed to save inventory');
+            }
+            $this->commit();
+            return $productId;
+        } catch (\Exception $e) {
+            error_log('Transaction failed: ' . $e->getMessage());
+            $this->rollback();
+            return false;
+        }
+    }
+
+    /**
+     * Update the inventory data based on the product ID.
+     *
+     * @param int $productId The product ID.
+     * @param array $inventoryData The inventory data to update.
+     * @return bool True if the update was successful, false otherwise.
+     */
+    public function updateInventoryByProductId(int $productId, array $inventoryData): bool
+    {
+        $inventoryData['product_id'] = $productId;
+        return $this->update('inventory', $inventoryData, $productId);
     }
 }

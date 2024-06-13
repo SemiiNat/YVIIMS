@@ -30,9 +30,13 @@ COPY ./php.ini /usr/local/etc/php
 # Copy .htaccess file
 COPY .htaccess /var/www/html/.htaccess
 
+# Copy custom php.ini
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
+
 # Allow .htaccess with RewriteEngine
 RUN { \
     echo '<Directory /var/www/html/>'; \
     echo '    AllowOverride All'; \
     echo '</Directory>'; \
 } > /etc/apache2/conf-available/htaccess.conf && a2enconf htaccess
+

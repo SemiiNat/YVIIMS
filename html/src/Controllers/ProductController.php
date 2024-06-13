@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controllers;
 
 use App\Http\Request;
@@ -60,7 +59,14 @@ class ProductController
             $data['supplier_ids'] = [];
         }
 
-        $validationError = $this->productService->createProduct($data);
+        // Extract inventory data
+        $inventoryData = [
+            'quantity' => (int)$data['quantity'],
+            'expiration_date' => date('Y-m-d', strtotime($data['manufacturing_date'] . ' + 9 months'))
+        ];
+        unset($data['quantity']);
+
+        $validationError = $this->productService->createProduct($data, $inventoryData);
 
         if (!empty($validationError)) {
             $response->sendJson($validationError, 422);
@@ -68,5 +74,51 @@ class ProductController
         }
 
         $response->sendJson(["message" => "Product created successfully"], 201);
+    }
+
+    public function edit(Request $request, Response $response, $id): View
+    {
+        $product = $this->productService->getProductById((int) $id);
+        $categories = $this->categoryService->getCategory();
+        $suppliers = $this->supplierService->getSupplier();
+        $contentView = View::make('product/edit', [
+            'product' => $product,
+            'categories' => $categories,
+            'suppliers' => $suppliers,
+        ])->render();
+
+        return View::make('dashboard', ['content' => $contentView]);
+    }
+
+    public function update(Request $request, Response $response, $id)
+    {
+        $data = $request->getBody();
+        $data['id'] = (int) $id; // Ensure the ID is set for the update
+
+        unset($data['search_terms']);
+        if (isset($data['category_id'])) {
+            $data['category_id'] = (int)$data['category_id'];
+        }
+        if (isset($data['supplier_ids']) && is_array($data['supplier_ids'])) {
+            $data['supplier_ids'] = array_map('intval', $data['supplier_ids']);
+        } else {
+            $data['supplier_ids'] = [];
+        }
+
+        // Extract inventory data
+        $inventoryData = [
+            'quantity' => (int)$data['quantity'],
+            'expiration_date' => date('Y-m-d', strtotime($data['manufacturing_date'] . ' + 9 months'))
+        ];
+        unset($data['quantity']);
+
+        $validationError = $this->productService->updateProduct($data, $inventoryData);
+
+        if (!empty($validationError)) {
+            $response->sendJson($validationError, 422);
+            return;
+        }
+
+        $response->sendJson(["message" => "Product updated successfully"], 200);
     }
 }
