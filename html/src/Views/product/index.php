@@ -23,9 +23,6 @@ View::startSection('content');
                     <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Category</th>
                     <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Price</th>
                     <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Stock Status</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">ROP</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">EOQ</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Critical Level</th>
                     <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
@@ -36,12 +33,10 @@ View::startSection('content');
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['category_name'] ?? 'N/A') ?></td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700">₱<?= number_format($product['price'], 2) ?></td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['stock_status']) ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['reorder_point']) ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['economic_order_quantity']) ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['critical_level']) ?></td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
                         <a class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600" href="/product/edit/<?= $product['id'] ?>">Edit</a>
                         <a class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" href="/product/delete/<?= $product['id'] ?>">Delete</a>
+                        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 view-inventory" data-id="<?= $product['id'] ?>">View Inventory</button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -50,50 +45,87 @@ View::startSection('content');
     </div>
 </div>
 
-<!-- Dialog Element of Category -->
-<dialog id="addCategoryModal" class="p-6 max-w-lg mx-auto rounded shadow-lg bg-white relative">
+<!-- Inventory Modal -->
+<dialog id="inventoryModal" class="p-6 max-w-3xl mx-auto rounded shadow-lg bg-white relative">
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-900">Add Category</h2>
-        <button id="close" class="text-gray-500 hover:text-gray-800">
+        <h2 class="text-lg font-semibold text-gray-900">Inventory Details</h2>
+        <button id="closeInventoryModal" class="text-gray-500 hover:text-gray-800">
             <i class="fas fa-times"></i>
         </button>
     </div>
-    <!-- Form inside the dialog -->
-    <form method="POST" action="/category" id="categoryForm" hx-post="/category" hx-trigger="submit" hx-target="this" hx-swap="none" hx-redirect="/category">
-        <label for="category_name" class="block text-sm font-medium text-gray-700">Category Name:</label>
-        <input type="text" id="category_name" name="category_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <p id="category_name_err" class="error-validation text-red-500 text-sm hidden"></p>
-        <button type="submit" class="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-700">
-            Submit
-        </button>
-    </form>
+    <table class="min-w-full bg-white border border-gray-300 mb-4">
+        <thead>
+            <tr>
+                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">SKU</th>
+                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Manufacturing Date</th>
+                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Expiration Date</th>
+                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="inventoryDetails">
+            <!-- Inventory details will be injected here -->
+        </tbody>
+    </table>
+    <a id="addInventoryButton" href="" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add</a>
 </dialog>
 
 <script src="public/js/serialize-helper.js"></script>
 <script defer>
-    // Category Part
-    // Get the dialog element
-    const addCategoryDialog = document.getElementById('addCategoryModal');
+    // Inventory Modal Part
+    const inventoryModal = document.getElementById('inventoryModal');
+    const closeInventoryModal = document.getElementById('closeInventoryModal');
+    const inventoryButtons = document.querySelectorAll('.view-inventory');
 
-    // Get the button that opens the dialog
-    const openCategoryButton = document.getElementById('openButtonDialog');
+    inventoryButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const productId = this.dataset.id;
+            const response = await fetch(`/product/inventory/${productId}`);
+            const inventory = await response.json();
 
-    // Get the button that closes the dialog
-    const closeCategoryButton = document.getElementById('close');
+            const inventoryDetails = document.getElementById('inventoryDetails');
+            inventoryDetails.innerHTML = '';
 
-    // When the user clicks the open button, show the dialog
-    openCategoryButton.addEventListener('click', function() {
-        addCategoryDialog.showModal(); // Use dialog.show() if you do not need it to be modal
+            inventory.forEach(item => {
+                const row = document.createElement('tr');
+                row.classList.add('bg-white', 'hover:bg-gray-100');
+
+                row.innerHTML = `
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.sku}</td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.manufacturing_date}</td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.expiration_date}</td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.quantity}</td>
+                `;
+
+                inventoryDetails.appendChild(row);
+            });
+
+            const addInventoryButton = document.getElementById('addInventoryButton');
+            addInventoryButton.href = `/product/inventory/add/${productId}`;
+
+            inventoryModal.showModal();
+        });
     });
 
-    // When the user clicks the close button, close the dialog
+    closeInventoryModal.addEventListener('click', function() {
+        inventoryModal.close();
+    });
+
+    // Category Part
+    const addCategoryDialog = document.getElementById('addCategoryModal');
+    const openCategoryButton = document.getElementById('openButtonDialog');
+    const closeCategoryButton = document.getElementById('close');
+
+    openCategoryButton.addEventListener('click', function() {
+        addCategoryDialog.showModal();
+    });
+
     closeCategoryButton.addEventListener('click', function() {
         addCategoryDialog.close();
     });
 
     document.getElementById('categoryForm').addEventListener('htmx:afterRequest', async function(event) {
         if (event.detail.xhr.status === 201) {
-            addCategoryDialog.close(); // Close the add dialog after successful submission
+            addCategoryDialog.close();
 
             Swal.fire({
                 icon: "success",
@@ -101,7 +133,6 @@ View::startSection('content');
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                // Redirect to the category page after the timer completes
                 window.location.href = "/category";
             });
         } else {
