@@ -35,10 +35,10 @@ View::startSection('content');
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['product_name']) ?></td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['category_name'] ?? 'N/A') ?></td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700">₱<?= number_format($product['price'], 2) ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['stock_status'] ?? 'N/A') ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['reorder_point'] ?? 'N/A') ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['economic_order_quantity'] ?? 'N/A') ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['critical_level'] ?? 'N/A') ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['stock_status']) ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['reorder_point']) ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['economic_order_quantity']) ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['critical_level']) ?></td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
                         <a class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600" href="/product/edit/<?= $product['id'] ?>">Edit</a>
                         <a class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" href="/product/delete/<?= $product['id'] ?>">Delete</a>

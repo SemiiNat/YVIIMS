@@ -130,3 +130,27 @@ Stack trace:
 [13-Jun-2024 18:38:04 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/product/edit.php on line 52
 [13-Jun-2024 18:38:04 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/product/edit.php on line 57
 [13-Jun-2024 18:38:04 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/product/edit.php on line 62
+[13-Jun-2024 19:13:36 UTC] PHP Fatal error:  Uncaught TypeError: App\Controllers\SupplierController::getById(): Argument #3 ($id) must be of type int, string given, called in /var/www/html/src/Routes/Router.php on line 120 and defined in /var/www/html/src/Controllers/SupplierController.php:32
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(120): App\Controllers\SupplierController->getById(Object(App\Http\Request), Object(App\Http\Response), 'create')
+#1 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#2 /var/www/html/router.php(48): App\Routes\Router->run()
+#3 {main}
+  thrown in /var/www/html/src/Controllers/SupplierController.php on line 32
+[13-Jun-2024 19:21:57 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 19:35:20 UTC] Validation Error
+[13-Jun-2024 19:35:27 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 19:35:43 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 19:47:49 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 19:52:39 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 19:58:32 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:02:40 UTC] Validation Error
+[13-Jun-2024 20:02:46 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:07:09 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:13:15 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:14:10 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:14:10 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:16:22 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:16:22 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:17:34 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38
+[13-Jun-2024 20:17:34 UTC] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 38

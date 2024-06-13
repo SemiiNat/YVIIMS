@@ -99,4 +99,23 @@ class Product extends BaseModel
         error_log('Saving product with data: ' . json_encode($data));
         return $this->db->create($this->table, $data);
     }
+
+    public function getCategoryNameAbbreviation(int $categoryId): string
+    {
+        $sql = "SELECT category_name FROM category WHERE id = ?";
+        $category = $this->db->getOne($sql, [$categoryId]);
+
+        if (!$category) {
+            return 'UNK';
+        }
+
+        // Create an abbreviation of the category name by taking the first three letters of each word
+        $words = explode(' ', $category['category_name']);
+        $abbreviation = '';
+        foreach ($words as $word) {
+            $abbreviation .= strtoupper(substr($word, 0, 5));
+        }
+
+        return $abbreviation;
+    }
 }
