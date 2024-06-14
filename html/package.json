@@ -7,8 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "build-css": "tailwindcss -i public/css/styles.css -o public/css/output.css",
-    "watch-css": "tailwindcss -i public/css/styles.css -o public/css/output.css --watch"
+    "build-css": "npx tailwindcss -i public/css/styles.css -o public/css/output.css",
+    "watch-css": "npx tailwindcss -i public/css/styles.css -o public/css/output.css --watch"
   },
   "keywords": [],
   "author": "RGGP",

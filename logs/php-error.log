@@ -573,3 +573,11 @@ Stack trace:
 [14-Jun-2024 15:14:58 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
 [14-Jun-2024 15:14:58 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
 [14-Jun-2024 15:14:58 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 20:26:27 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 20:26:27 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 20:26:27 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 20:26:27 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 20:28:37 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 20:28:37 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 20:28:37 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 20:28:37 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0

@@ -4,37 +4,37 @@ use App\Http\View;
 View::startSection('content');
 ?>
 
-<div class="container mx-auto">
-    <h1 class="text-3xl font-bold mb-6">Product List</h1>
+<div class="container mx-auto p-6 rounded-xl shadow-lg bg-[#2C3531]">
+    <h1 class="text-3xl font-bold mb-6 text-[#D1E8E2]">Product List</h1>
     <div class="flex items-center justify-between mb-4">
         <div>
-            <input type="text" placeholder="Search..." class="border rounded py-2 px-4 text-gray-700 focus:outline-none focus:border-blue-500" id="searchText">
+            <input type="text" placeholder="Search..." class="border rounded py-2 px-4 text-gray-700 focus:outline-none focus:border-[#116466]" id="searchText">
         </div>
         <div>
-            <a class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" href="/product/create">Add Product</a>
-            <button id="openButtonDialog" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Category</button>
+            <a class="bg-[#116466] text-white px-4 py-2 rounded hover:bg-[#D9B08C]" href="/product/create">Add Product</a>
+            <button id="openButtonDialog" class="bg-[#116466] text-white px-4 py-2 rounded hover:bg-[#D9B08C]">Add Category</button>
         </div>
     </div>
     <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300">
+        <table class="min-w-full bg-[#2C3531] border border-gray-300">
             <thead>
                 <tr>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Product Name</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Category</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Price</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Stock Status</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Actions</th>
+                    <th class="px-4 py-2 border-b border-gray-300 bg-[#116466] text-left text-sm font-medium text-white uppercase tracking-wider">Product Name</th>
+                    <th class="px-4 py-2 border-b border-gray-300 bg-[#116466] text-left text-sm font-medium text-white uppercase tracking-wider">Category</th>
+                    <th class="px-4 py-2 border-b border-gray-300 bg-[#116466] text-left text-sm font-medium text-white uppercase tracking-wider">Price</th>
+                    <th class="px-4 py-2 border-b border-gray-300 bg-[#116466] text-left text-sm font-medium text-white uppercase tracking-wider">Stock Status</th>
+                    <th class="px-4 py-2 border-b border-gray-300 bg-[#116466] text-left text-sm font-medium text-white uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($products as $product): ?>
-                <tr class="bg-white hover:bg-gray-100">
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['product_name']) ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['category_name'] ?? 'N/A') ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">₱<?= number_format($product['price'], 2) ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['stock_status']) ?></td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
-                        <a class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600" href="/product/edit/<?= $product['id'] ?>">Edit</a>
+                <tr class="bg-[#2C3531] hover:bg-[#3b3f45]">
+                    <td class="px-4 py-2 border-b border-gray-300 text-[#D1E8E2]"><?= htmlspecialchars($product['product_name']) ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-[#D1E8E2]"><?= htmlspecialchars($product['category_name'] ?? 'N/A') ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-[#D1E8E2]">₱<?= number_format($product['price'], 2) ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-[#D1E8E2]"><?= htmlspecialchars($product['stock_status']) ?></td>
+                    <td class="px-4 py-2 border-b border-gray-300 text-[#D1E8E2]">
+                        <a class="bg-[#116466] text-white px-2 py-1 rounded hover:bg-[#D9B08C]" href="/product/edit/<?= $product['id'] ?>">Edit</a>
                         <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 delete-product" data-id="<?= $product['id'] ?>">Delete</button>
                     </td>
                 </tr>
@@ -55,10 +55,10 @@ View::startSection('content');
             <span id="category_name_err" class="text-red-500 text-xs italic hidden"></span>
         </div>
         <div class="flex items-center justify-between">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button type="submit" class="bg-[#116466] hover:bg-[#D9B08C] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Save
             </button>
-            <button type="button" id="closeButtonDialog" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button type="button" id="closeButtonDialog" class="bg-[#116466] hover:bg-[#D9B08C] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Cancel
             </button>
 
@@ -107,15 +107,10 @@ View::startSection('content');
         addCategoryDialog.showModal();
     });
 
-    // closeCategoryButton.addEventListener('click', function() {
-    //     addCategoryDialog.close();
-    // });
-
-    // When the user clicks the close button, close the addDialog
     closeCategoryButton.addEventListener('click', function() {
-    addCategoryDialog.close();
-    clearFormErrors();
-    clearForm();
+        addCategoryDialog.close();
+        clearFormErrors();
+        clearForm();
     });
 
     document.getElementById('categoryForm').addEventListener('submit', async function(event) {
