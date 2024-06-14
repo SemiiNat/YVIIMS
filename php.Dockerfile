@@ -1,19 +1,20 @@
 FROM php:8.0-apache
 
+# Update and install necessary packages
 RUN apt-get update -y && \
   apt-get install -y sendmail libpng-dev \
-  curl \
   libfreetype6-dev \
   libjpeg62-turbo-dev \
-  gnupg2
+  gnupg2 \
+  libcurl4-openssl-dev
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
-  docker-php-ext-install -j$(nproc) gd
-
-RUN docker-php-ext-install \
+  docker-php-ext-install -j$(nproc) gd \
+  && docker-php-ext-install \
     mysqli \
     pdo_mysql \
+    curl \
     && a2enmod \
     rewrite
 
@@ -25,13 +26,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
   apt-get install -y nodejs
 
 # Copy custom php.ini file
-COPY ./php.ini /usr/local/etc/php
+COPY php.ini /usr/local/etc/php/conf.d/
 
 # Copy .htaccess file
 COPY .htaccess /var/www/html/.htaccess
-
-# Copy custom php.ini
-COPY php.ini /usr/local/etc/php/conf.d/php.ini
 
 # Allow .htaccess with RewriteEngine
 RUN { \
@@ -39,4 +37,3 @@ RUN { \
     echo '    AllowOverride All'; \
     echo '</Directory>'; \
 } > /etc/apache2/conf-available/htaccess.conf && a2enconf htaccess
-

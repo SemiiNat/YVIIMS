@@ -12,7 +12,7 @@ use App\Controllers\CategoryController;
 use App\Controllers\DashboardController;
 use App\Controllers\ProductController;
 use App\Controllers\SupplierController;
-use App\Controllers\InventoryController; 
+use App\Controllers\InventoryController;
 
 $routes = new RouteCollection();
 $router = new Router($routes, $container);
@@ -27,9 +27,9 @@ $routes->add(new Route('POST', '/logout', [AuthController::class, 'logout']));
 $routes->add(new Route('GET', '/product', [ProductController::class, 'index']));
 $routes->add(new Route('GET', '/product/create', [ProductController::class, 'create']));
 $routes->add(new Route('POST', '/product', [ProductController::class, 'save']));
-$routes->add(new Route('GET', '/product/edit/{id}', [ProductController::class, 'edit'])); // Add this line
-$routes->add(new Route('POST', '/product/update/{id}', [ProductController::class, 'update'])); // Add this line
-$routes->add(new Route('DELETE', '/product/delete/{id}', [ProductController::class, 'delete'])); // Add this line
+$routes->add(new Route('GET', '/product/edit/{id}', [ProductController::class, 'edit']));
+$routes->add(new Route('POST', '/product/update/{id}', [ProductController::class, 'update']));
+$routes->add(new Route('DELETE', '/product/delete/{id}', [ProductController::class, 'delete']));
 
 // Inventory controller
 $routes->add(new Route('GET', '/inventory', [InventoryController::class, 'index']));
@@ -38,7 +38,6 @@ $routes->add(new Route('POST', '/inventory/add', [InventoryController::class, 's
 $routes->add(new Route('GET', '/inventory/edit/{id}', [InventoryController::class, 'edit']));
 $routes->add(new Route('POST', '/inventory/update/{id}', [InventoryController::class, 'update']));
 $routes->add(new Route('GET', '/inventory/delete/{id}', [InventoryController::class, 'delete']));
-
 
 
 

@@ -40,16 +40,17 @@ class InventoryController
     public function save(Request $request, Response $response)
     {
         $data = $request->getBody();
-
+    
         $validationError = $this->inventoryService->createInventory($data);
-
+    
         if (!empty($validationError)) {
             $response->sendJson($validationError, 422);
             return;
         }
-
+    
         $response->sendJson(["message" => "Inventory created successfully"], 201);
     }
+    
 
     public function edit(Request $request, Response $response, $id): View
     {

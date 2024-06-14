@@ -6,15 +6,17 @@ use App\Models\BaseModel;
 use App\Helper\DatabaseHelper;
 use App\Helper\Validation;
 
-class Inventory extends BaseModel
+class Batch extends BaseModel
 {
-    protected $table = 'inventory';
+    protected $table = 'batch';
     protected $primaryKey = 'id';
     protected $validation;
     protected $requiredFields = [
-        'product_id'
-        // 'reorder_point',
-        // 'safety_stock'
+        'product_id',
+        'sku',
+        'manufacturing_date',
+        'expiration_date',
+        'quantity'
     ];
 
     public function __construct(DatabaseHelper $db)
@@ -27,9 +29,9 @@ class Inventory extends BaseModel
     {
         $errors = parent::validate($data);
 
-        // Validate product_id
-        if (!isset($data['product_id']) || !is_numeric($data['product_id'])) {
-            $errors['product_id'] = 'Product ID must be a valid number';
+        // Validate quantity
+        if (!isset($data['quantity']) || !is_numeric($data['quantity'])) {
+            $errors['quantity'] = 'Quantity must be a valid number';
         }
 
         return $errors;
@@ -50,7 +52,7 @@ class Inventory extends BaseModel
 
     public function save(array $data): int|bool
     {
-        error_log('Saving inventory with data: ' . json_encode($data));
+        error_log('Saving batch with data: ' . json_encode($data));
         return $this->db->create($this->table, $data);
     }
 }

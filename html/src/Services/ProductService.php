@@ -87,7 +87,7 @@ class ProductService
 
     public function softDelete(int $id): bool
     {
-        return $this->productModel->update(['id' => $id, 'is_deleted' => 1]);
+        return $this->productModel->soft_delete($id);
     }
 
     public function updateProduct($data): array
@@ -127,5 +127,12 @@ class ProductService
         }
 
         return $validationErrors;
+    }
+
+    public function getProductNameById(int $productId): string
+    {
+        $sql = "SELECT product_name FROM product WHERE id = ?";
+        $product = $this->db->getOne($sql, [$productId]);
+        return $product['product_name'] ?? '';
     }
 }

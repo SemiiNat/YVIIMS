@@ -166,3 +166,25 @@ Stack trace:
 [14-Jun-2024 02:41:20 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
 [14-Jun-2024 02:41:20 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library 'php_gd2.dll' (tried: /usr/local/lib/php/extensions/no-debug-non-zts-20200930/php_gd2.dll (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/php_gd2.dll: cannot open shared object file: No such file or directory), /usr/local/lib/php/extensions/no-debug-non-zts-20200930/php_gd2.dll.so (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/php_gd2.dll.so: cannot open shared object file: No such file or directory)) in Unknown on line 0
 [14-Jun-2024 02:41:20 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library 'curl' (tried: /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl: cannot open shared object file: No such file or directory), /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so: cannot open shared object file: No such file or directory)) in Unknown on line 0
+[14-Jun-2024 03:23:07 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 03:23:07 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 03:32:13 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library 'curl' (tried: /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl: cannot open shared object file: No such file or directory), /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so: cannot open shared object file: No such file or directory)) in Unknown on line 0
+[14-Jun-2024 03:32:13 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 03:32:13 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 03:32:13 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library 'curl' (tried: /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl: cannot open shared object file: No such file or directory), /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so: cannot open shared object file: No such file or directory)) in Unknown on line 0
+[14-Jun-2024 03:48:26 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library 'curl' (tried: /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl: cannot open shared object file: No such file or directory), /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so: cannot open shared object file: No such file or directory)) in Unknown on line 0
+[14-Jun-2024 03:48:26 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 03:48:26 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 03:48:26 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library 'curl' (tried: /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl: cannot open shared object file: No such file or directory), /usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so (/usr/local/lib/php/extensions/no-debug-non-zts-20200930/curl.so: cannot open shared object file: No such file or directory)) in Unknown on line 0
+[14-Jun-2024 04:12:23 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 04:12:23 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 04:12:23 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 04:12:23 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 04:37:12 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 04:37:12 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 04:37:12 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 04:37:12 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 04:39:28 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 04:39:28 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 04:39:28 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 04:39:28 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
