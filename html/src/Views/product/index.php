@@ -23,7 +23,7 @@ View::startSection('content');
                     <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Category</th>
                     <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Price</th>
                     <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Stock Status</th>
-                    <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Actions</th>
+                    <th class="px-4 py-2 border-b border-gray-300 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +43,28 @@ View::startSection('content');
         </table>
     </div>
 </div>
+
+<!-- Modal for Adding Category -->
+<dialog id="addCategoryModal" class="bg-white p-6 rounded shadow-lg w-1/3">
+    <form id="categoryForm" action="/category" method="POST">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="category_name">
+                Category Name
+            </label>
+            <input type="text" name="category_name" id="category_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <span id="category_name_err" class="text-red-500 text-xs italic hidden"></span>
+        </div>
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Save
+            </button>
+            <button type="button" id="closeButtonDialog" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Cancel
+            </button>
+
+        </div>
+    </form>
+</dialog>
 
 <script src="public/js/serialize-helper.js"></script>
 <script defer>
@@ -79,30 +101,48 @@ View::startSection('content');
     // Category Part
     const addCategoryDialog = document.getElementById('addCategoryModal');
     const openCategoryButton = document.getElementById('openButtonDialog');
-    const closeCategoryButton = document.getElementById('close');
+    const closeCategoryButton = document.getElementById('closeButtonDialog');
 
     openCategoryButton.addEventListener('click', function() {
         addCategoryDialog.showModal();
     });
 
+    // closeCategoryButton.addEventListener('click', function() {
+    //     addCategoryDialog.close();
+    // });
+
+    // When the user clicks the close button, close the addDialog
     closeCategoryButton.addEventListener('click', function() {
-        addCategoryDialog.close();
+    addCategoryDialog.close();
+    clearFormErrors();
+    clearForm();
     });
 
-    document.getElementById('categoryForm').addEventListener('htmx:afterRequest', async function(event) {
-        if (event.detail.xhr.status === 201) {
-            addCategoryDialog.close();
+    document.getElementById('categoryForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-            Swal.fire({
-                icon: "success",
-                title: "Successfully saved category",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                window.location.href = "/category";
-            });
+        const formData = new FormData(this);
+        const response = await fetch('/category', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+                addCategoryDialog.close();
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Successfully saved category",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = "/category";
+                });
+            }
         } else {
-            const errors = JSON.parse(event.detail.xhr.responseText);
+            const errors = await response.json();
             Object.keys(errors).forEach((key) => {
                 const errorElement = document.getElementById(`${key}_err`);
                 if (errorElement) {
