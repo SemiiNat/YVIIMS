@@ -43,7 +43,13 @@ class ProductService
                 WHERE product.id = ?
                 GROUP BY product.id";
         $params = [$id];
-        return $this->db->getOne($sql, $params);
+        $product = $this->db->getOne($sql, $params);
+
+        if ($product) {
+            $product['supplier_ids'] = explode(',', $product['supplier_ids']);
+        }
+
+        return $product;
     }
 
     public function createProduct($data): array

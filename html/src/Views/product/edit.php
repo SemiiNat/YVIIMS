@@ -3,9 +3,7 @@
 use App\Http\View;
 
 View::startSection('content');
-$product = $data['product'];
-$categories = $data['categories'];
-$suppliers = $data['suppliers'];
+
 ?>
 <div class="container mx-auto">
     <form method="POST" id="saveForm" hx-post="/product/update/<?= $product['id'] ?>" hx-trigger="submit" hx-swap="none">
@@ -13,11 +11,6 @@ $suppliers = $data['suppliers'];
             <label for="product_name" class="block text-gray-700 text-sm font-bold mb-2">Product Name:</label>
             <input type="text" id="product_name" name="product_name" value="<?= htmlspecialchars($product['product_name']) ?>" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
             <p id="product_name_err" class="error-validation text-red-500 text-sm hidden"></p>
-        </div>
-        <div class="mb-4">
-            <label for="sku" class="block text-gray-700 text-sm font-bold mb-2">SKU:</label>
-            <input type="text" id="sku" name="sku" value="<?= htmlspecialchars($product['sku']) ?>" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <p id="sku_err" class="error-validation text-red-500 text-sm hidden"></p>
         </div>
         <div class="mb-4">
             <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Category:</label>
@@ -38,24 +31,9 @@ $suppliers = $data['suppliers'];
             <p id="supplier_ids_err" class="error-validation text-red-500 text-sm hidden"></p>
         </div>
         <div class="mb-4">
-            <label for="manufacturing_date" class="block text-gray-700 text-sm font-bold mb-2">Manufacturing Date:</label>
-            <input type="date" id="manufacturing_date" name="manufacturing_date" value="<?= htmlspecialchars($product['manufacturing_date']) ?>" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <p id="manufacturing_date_err" class="error-validation text-red-500 text-sm hidden"></p>
-        </div>
-        <div class="mb-4">
-            <label for="reorder_point" class="block text-gray-700 text-sm font-bold mb-2">Reorder Point:</label>
-            <input type="number" id="reorder_point" name="reorder_point" value="<?= htmlspecialchars($product['reorder_point']) ?>" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <p id="reorder_point_err" class="error-validation text-red-500 text-sm hidden"></p>
-        </div>
-        <div class="mb-4">
-            <label for="economic_order_quantity" class="block text-gray-700 text-sm font-bold mb-2">EOQ:</label>
-            <input type="number" id="economic_order_quantity" name="economic_order_quantity" value="<?= htmlspecialchars($product['economic_order_quantity']) ?>" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <p id="economic_order_quantity_err" class="error-validation text-red-500 text-sm hidden"></p>
-        </div>
-        <div class="mb-4">
-            <label for="critical_level" class="block text-gray-700 text-sm font-bold mb-2">Critical Level:</label>
-            <input type="number" id="critical_level" name="critical_level" value="<?= htmlspecialchars($product['critical_level']) ?>" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <p id="critical_level_err" class="error-validation text-red-500 text-sm hidden"></p>
+            <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+            <input type="text" id="price" name="price" value="<?= htmlspecialchars($product['price']) ?>" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            <p id="price_err" class="error-validation text-red-500 text-sm hidden"></p>
         </div>
         <div class="mb-4">
             <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
