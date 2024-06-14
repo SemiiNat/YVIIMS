@@ -40,17 +40,18 @@ class InventoryController
     public function save(Request $request, Response $response)
     {
         $data = $request->getBody();
-    
+
         $validationError = $this->inventoryService->createInventory($data);
-    
+
         if (!empty($validationError)) {
+            error_log("Validation error: " . json_encode($validationError));
             $response->sendJson($validationError, 422);
             return;
         }
-    
+
+        error_log("Successfully created inventory with data: " . json_encode($data));
         $response->sendJson(["message" => "Inventory created successfully"], 201);
     }
-    
 
     public function edit(Request $request, Response $response, $id): View
     {
@@ -67,27 +68,32 @@ class InventoryController
     public function update(Request $request, Response $response, $id)
     {
         $data = $request->getBody();
-        $data['id'] = (int) $id; // Ensure the ID is set for the update
+        $data['id'] = (int) $id;
 
         $validationError = $this->inventoryService->updateInventory((int) $id, $data);
 
         if (!empty($validationError)) {
+            error_log("Validation error: " . json_encode($validationError));
             $response->sendJson($validationError, 422);
             return;
         }
 
+        error_log("Successfully updated inventory with ID: " . $id);
         $response->sendJson(["message" => "Inventory updated successfully"], 200);
     }
 
     public function delete(Request $request, Response $response, $id)
     {
+        error_log("Attempting to delete inventory with batch ID: " . $id);
         $result = $this->inventoryService->deleteInventory((int) $id);
 
         if (!$result) {
+            error_log("Failed to delete inventory with batch ID: " . $id);
             $response->sendJson(["error" => "Failed to delete inventory"], 500);
             return;
         }
 
+        error_log("Successfully deleted inventory with batch ID: " . $id);
         $response->sendJson(["message" => "Inventory deleted successfully"], 200);
     }
 }

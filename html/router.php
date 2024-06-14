@@ -37,9 +37,7 @@ $routes->add(new Route('GET', '/inventory/add', [InventoryController::class, 'cr
 $routes->add(new Route('POST', '/inventory/add', [InventoryController::class, 'save']));
 $routes->add(new Route('GET', '/inventory/edit/{id}', [InventoryController::class, 'edit']));
 $routes->add(new Route('POST', '/inventory/update/{id}', [InventoryController::class, 'update']));
-$routes->add(new Route('GET', '/inventory/delete/{id}', [InventoryController::class, 'delete']));
-
-
+$routes->add(new Route('DELETE', '/inventory/delete/{id}', [InventoryController::class, 'delete']));
 
 // Category controller
 $routes->add(new Route('POST', '/category', [CategoryController::class, 'save']));

@@ -29,7 +29,6 @@ class Batch extends BaseModel
     {
         $errors = parent::validate($data);
 
-        // Validate quantity
         if (!isset($data['quantity']) || !is_numeric($data['quantity'])) {
             $errors['quantity'] = 'Quantity must be a valid number';
         }
@@ -54,5 +53,11 @@ class Batch extends BaseModel
     {
         error_log('Saving batch with data: ' . json_encode($data));
         return $this->db->create($this->table, $data);
+    }
+
+    public function getById($id): ?array
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = ?";
+        return $this->db->getOne($sql, [$id]);
     }
 }

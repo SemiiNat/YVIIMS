@@ -188,3 +188,75 @@ Stack trace:
 [14-Jun-2024 04:39:28 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
 [14-Jun-2024 04:39:28 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
 [14-Jun-2024 04:39:28 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 08:26:11 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 08:26:11 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:26:11 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:26:11 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 08:33:07 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 08:33:07 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:33:07 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:33:07 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+This is a test log entry[14-Jun-2024 08:36:45 UTC] Validation Errors: []
+[14-Jun-2024 08:36:45 UTC] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 08:36:45 UTC] Failed to execute statement: Cannot add or update a child row: a foreign key constraint fails (`ivs`.`inventory`, CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_id`) REFERENCES `batch` (`product_id`) ON DELETE CASCADE)
+[14-Jun-2024 08:36:45 UTC] SQL: INSERT INTO inventory (product_id) VALUES (?)
+[14-Jun-2024 08:36:45 UTC] Data: {"product_id":"23"}
+[14-Jun-2024 08:36:45 UTC] Inventory ID: 
+[14-Jun-2024 08:36:45 UTC] Error creating inventory: Failed to save inventory
+[14-Jun-2024 08:36:45 UTC] Data: {"product_id":"23","manufacturing_date":"2024-01-20","quantity":"60"}
+[14-Jun-2024 08:36:45 UTC] Validation error: {"error":"Database Error: Failed to save inventory"}
+[14-Jun-2024 08:49:36 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 08:49:36 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:49:36 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:49:36 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 08:52:26 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 08:52:26 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:52:26 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 08:52:26 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 16:53:09 Asia/Manila] Validation Errors: []
+[14-Jun-2024 16:53:09 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 16:53:09 Asia/Manila] Failed to execute statement: Cannot add or update a child row: a foreign key constraint fails (`ivs`.`inventory`, CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_id`) REFERENCES `batch` (`product_id`) ON DELETE CASCADE)
+[14-Jun-2024 16:53:09 Asia/Manila] SQL: INSERT INTO inventory (product_id) VALUES (?)
+[14-Jun-2024 16:53:09 Asia/Manila] Data: {"product_id":"23"}
+[14-Jun-2024 16:53:09 Asia/Manila] Inventory ID: 
+[14-Jun-2024 16:53:09 Asia/Manila] Error creating inventory: Failed to save inventory
+[14-Jun-2024 16:53:09 Asia/Manila] Data: {"product_id":"23","manufacturing_date":"2024-01-24","quantity":"60"}
+[14-Jun-2024 16:53:09 Asia/Manila] Validation error: {"error":"Database Error: Failed to save inventory"}
+[14-Jun-2024 16:57:23 Asia/Manila] PHP Warning:  Undefined array key "batch_id" in /var/www/html/src/Services/InventoryService.php on line 57
+[14-Jun-2024 16:57:23 Asia/Manila] PHP Fatal error:  Uncaught TypeError: App\Services\InventoryService::generateSKU(): Argument #2 ($batchId) must be of type int, null given, called in /var/www/html/src/Services/InventoryService.php on line 57 and defined in /var/www/html/src/Services/InventoryService.php:165
+Stack trace:
+#0 /var/www/html/src/Services/InventoryService.php(57): App\Services\InventoryService->generateSKU(23, NULL)
+#1 /var/www/html/src/Controllers/InventoryController.php(44): App\Services\InventoryService->createInventory(Array)
+#2 /var/www/html/src/Routes/Router.php(120): App\Controllers\InventoryController->save(Object(App\Http\Request), Object(App\Http\Response))
+#3 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#4 /var/www/html/router.php(58): App\Routes\Router->run()
+#5 {main}
+  thrown in /var/www/html/src/Services/InventoryService.php on line 165
+[14-Jun-2024 17:02:38 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:02:38 Asia/Manila] Failed to execute statement: Cannot add or update a child row: a foreign key constraint fails (`ivs`.`inventory`, CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_id`) REFERENCES `batch` (`product_id`) ON DELETE CASCADE)
+[14-Jun-2024 17:02:38 Asia/Manila] SQL: INSERT INTO inventory (product_id) VALUES (?)
+[14-Jun-2024 17:02:38 Asia/Manila] Data: {"product_id":"23"}
+[14-Jun-2024 17:02:38 Asia/Manila] Error creating inventory: Failed to save inventory
+[14-Jun-2024 17:02:38 Asia/Manila] Data: {"product_id":"23","manufacturing_date":"2024-05-30","quantity":"50"}
+[14-Jun-2024 17:02:38 Asia/Manila] Validation error: {"error":"Database Error: Failed to save inventory"}
+[14-Jun-2024 17:06:26 Asia/Manila] Saving batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-05-03","expiration_date":"2025-02-03","quantity":"50"}
+[14-Jun-2024 17:06:26 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:06:33 Asia/Manila] PHP Fatal error:  Uncaught Error: Unknown named parameter $id in /var/www/html/src/Routes/Router.php:120
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#1 /var/www/html/router.php(58): App\Routes\Router->run()
+#2 {main}
+  thrown in /var/www/html/src/Routes/Router.php on line 120
+[14-Jun-2024 17:16:16 Asia/Manila] Saving batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-01-20","expiration_date":"2024-10-20","quantity":"30"}
+[14-Jun-2024 17:16:16 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:16:44 Asia/Manila] Saving batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-05-20","expiration_date":"2025-02-20","quantity":"30"}
+[14-Jun-2024 17:16:44 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:22:56 Asia/Manila] Saving batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-05-20","expiration_date":"2025-02-20","quantity":"60"}
+[14-Jun-2024 17:22:56 Asia/Manila] Successfully saved batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-05-20","expiration_date":"2025-02-20","quantity":"60"}
+[14-Jun-2024 17:22:56 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:22:56 Asia/Manila] Successfully saved inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:22:56 Asia/Manila] Successfully created inventory with data: {"product_id":"23","manufacturing_date":"2024-05-20","quantity":"60"}
+[14-Jun-2024 17:23:00 Asia/Manila] Attempting to delete inventory with batch ID: 21
+[14-Jun-2024 17:23:00 Asia/Manila] Successfully deleted batch with ID: 21
+[14-Jun-2024 17:23:00 Asia/Manila] Successfully deleted inventory for product_id: 23
+[14-Jun-2024 17:23:00 Asia/Manila] Successfully deleted inventory with batch ID: 21

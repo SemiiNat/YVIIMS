@@ -13,8 +13,6 @@ class Inventory extends BaseModel
     protected $validation;
     protected $requiredFields = [
         'product_id'
-        // 'reorder_point',
-        // 'safety_stock'
     ];
 
     public function __construct(DatabaseHelper $db)
@@ -27,7 +25,6 @@ class Inventory extends BaseModel
     {
         $errors = parent::validate($data);
 
-        // Validate product_id
         if (!isset($data['product_id']) || !is_numeric($data['product_id'])) {
             $errors['product_id'] = 'Product ID must be a valid number';
         }
@@ -46,6 +43,17 @@ class Inventory extends BaseModel
     public function delete($id): bool
     {
         return $this->db->hard_delete($this->table, $id);
+    }
+
+    public function deleteByProductId($productId): bool
+    {
+        $stmt = $this->db->con->prepare("DELETE FROM {$this->table} WHERE product_id = ?");
+        if (!$stmt) {
+            error_log('Failed to prepare statement: ' . $this->db->con->error);
+            return false;
+        }
+        $stmt->bind_param('i', $productId);
+        return $stmt->execute();
     }
 
     public function save(array $data): int|bool
