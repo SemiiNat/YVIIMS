@@ -35,8 +35,7 @@ View::startSection('content');
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700"><?= htmlspecialchars($product['stock_status']) ?></td>
                     <td class="px-4 py-2 border-b border-gray-300 text-gray-700">
                         <a class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600" href="/product/edit/<?= $product['id'] ?>">Edit</a>
-                        <a class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" href="/product/delete/<?= $product['id'] ?>">Delete</a>
-                        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 view-inventory" data-id="<?= $product['id'] ?>">View Inventory</button>
+                        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 delete-product" data-id="<?= $product['id'] ?>">Delete</button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -45,69 +44,36 @@ View::startSection('content');
     </div>
 </div>
 
-<!-- Inventory Modal -->
-<dialog id="inventoryModal" class="p-6 max-w-3xl mx-auto rounded shadow-lg bg-white relative">
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-900">Inventory Details</h2>
-        <button id="closeInventoryModal" class="text-gray-500 hover:text-gray-800">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    <table class="min-w-full bg-white border border-gray-300 mb-4">
-        <thead>
-            <tr>
-                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">SKU</th>
-                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Manufacturing Date</th>
-                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Expiration Date</th>
-                <th class="px-4 py-2 border-b border-gray-300 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Quantity</th>
-            </tr>
-        </thead>
-        <tbody id="inventoryDetails">
-            <!-- Inventory details will be injected here -->
-        </tbody>
-    </table>
-    <a id="addInventoryButton" href="" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add</a>
-</dialog>
-
 <script src="public/js/serialize-helper.js"></script>
 <script defer>
-    // Inventory Modal Part
-    const inventoryModal = document.getElementById('inventoryModal');
-    const closeInventoryModal = document.getElementById('closeInventoryModal');
-    const inventoryButtons = document.querySelectorAll('.view-inventory');
-
-    inventoryButtons.forEach(button => {
+    // Delete Product
+    document.querySelectorAll('.delete-product').forEach(button => {
         button.addEventListener('click', async function() {
             const productId = this.dataset.id;
-            const response = await fetch(`/product/inventory/${productId}`);
-            const inventory = await response.json();
-
-            const inventoryDetails = document.getElementById('inventoryDetails');
-            inventoryDetails.innerHTML = '';
-
-            inventory.forEach(item => {
-                const row = document.createElement('tr');
-                row.classList.add('bg-white', 'hover:bg-gray-100');
-
-                row.innerHTML = `
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.sku}</td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.manufacturing_date}</td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.expiration_date}</td>
-                    <td class="px-4 py-2 border-b border-gray-300 text-gray-700">${item.quantity}</td>
-                `;
-
-                inventoryDetails.appendChild(row);
+            const response = await fetch(`/product/delete/${productId}`, {
+                method: 'DELETE',
             });
+            const result = await response.json();
 
-            const addInventoryButton = document.getElementById('addInventoryButton');
-            addInventoryButton.href = `/product/inventory/add/${productId}`;
-
-            inventoryModal.showModal();
+            if (response.ok) {
+                Swal.fire({
+                    icon: "success",
+                    title: result.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: result.error,
+                    showConfirmButton: true
+                });
+            }
         });
-    });
-
-    closeInventoryModal.addEventListener('click', function() {
-        inventoryModal.close();
     });
 
     // Category Part

@@ -19,7 +19,7 @@
                 <a href="/product" class="py-1">View Products</a>
                 <a href="/product/create" class="py-1">Add Product</a>
                 <a href="/category" class="py-1">View Categories</a>
-                <a href="/category/create" class="py-1">Add Categories</a>
+                <a href="/inventory" class="py-1">View Product Inventory</a>
             </div>
         </li>
         <li class="mb-5 relative">
@@ -29,7 +29,6 @@
             </button>
             <div id="supplierDropdown" class="hidden flex flex-col pl-4">
                 <a href="/supplier" class="py-1">View Suppliers</a>
-                <a href="/supplier/create" class="py-1">Add Supplier</a>
             </div>
         </li>
         <li class="mb-5 relative">

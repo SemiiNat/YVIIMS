@@ -58,14 +58,7 @@ class ProductController
             $data['supplier_ids'] = [];
         }
 
-        // Extract inventory data
-        $inventoryData = [
-            'quantity' => (int)$data['quantity'],
-            'expiration_date' => date('Y-m-d', strtotime($data['manufacturing_date'] . ' + 9 months'))
-        ];
-        unset($data['quantity']);
-
-        $validationError = $this->productService->createProduct($data, $inventoryData);
+        $validationError = $this->productService->createProduct($data);
 
         if (!empty($validationError)) {
             $response->sendJson($validationError, 422);
@@ -104,14 +97,7 @@ class ProductController
             $data['supplier_ids'] = [];
         }
 
-        // Extract inventory data
-        $inventoryData = [
-            'quantity' => (int)$data['quantity'],
-            'expiration_date' => date('Y-m-d', strtotime($data['manufacturing_date'] . ' + 9 months'))
-        ];
-        unset($data['quantity']);
-
-        $validationError = $this->productService->updateProduct($data, $inventoryData);
+        $validationError = $this->productService->updateProduct($data);
 
         if (!empty($validationError)) {
             $response->sendJson($validationError, 422);
@@ -119,5 +105,17 @@ class ProductController
         }
 
         $response->sendJson(["message" => "Product updated successfully"], 200);
+    }
+
+    public function delete(Request $request, Response $response, $id)
+    {
+        $result = $this->productService->softDelete((int) $id);
+
+        if (!$result) {
+            $response->sendJson(["error" => "Failed to delete product"], 500);
+            return;
+        }
+
+        $response->sendJson(["message" => "Product deleted successfully"], 200);
     }
 }

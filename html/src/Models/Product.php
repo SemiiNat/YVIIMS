@@ -15,10 +15,6 @@ class Product extends BaseModel
         'category_id',
         "product_name",
         "price",
-        "reorder_point",
-        "economic_order_quantity",
-        "critical_level",
-        "manufacturing_date"
     ];
 
     public function __construct(DatabaseHelper $db)
@@ -31,29 +27,9 @@ class Product extends BaseModel
     {
         $errors = parent::validate($data);
 
-        // Validate SKU
-        if (isset($data['sku']) && !$this->validation->isUnique($this->table, 'sku', $data['sku'])) {
-            $errors['sku'] = 'SKU already exists';
-        }
-
-        // Validate price
+        // Validate
         if (!isset($data['price']) || !is_numeric($data['price'])) {
             $errors['price'] = 'Price must be a valid number';
-        }
-
-        // Validate reorder point
-        if (!isset($data['reorder_point']) || !is_numeric($data['reorder_point'])) {
-            $errors['reorder_point'] = 'Reorder point is required';
-        }
-
-        // Validate economic order quantity
-        if (!isset($data['economic_order_quantity']) || !is_numeric($data['economic_order_quantity'])) {
-            $errors['economic_order_quantity'] = 'Economic order quantity is required';
-        }
-
-        // Validate critical level
-        if (!isset($data['critical_level']) || !is_numeric($data['critical_level'])) {
-            $errors['critical_level'] = 'Critical level is required';
         }
 
         return $errors;
@@ -87,35 +63,9 @@ class Product extends BaseModel
         return $this->db->update($this->table, $data, $id);
     }
 
-    public function getLatestProductBySKU(string $skuPrefix): ?array
-    {
-        $sql = "SELECT * FROM {$this->table} WHERE sku LIKE ? ORDER BY id DESC LIMIT 1";
-        $params = ["{$skuPrefix}%"];
-        return $this->db->getOne($sql, $params);
-    }
-
     public function save(array $data): int|bool
     {
         error_log('Saving product with data: ' . json_encode($data));
         return $this->db->create($this->table, $data);
-    }
-
-    public function getCategoryNameAbbreviation(int $categoryId): string
-    {
-        $sql = "SELECT category_name FROM category WHERE id = ?";
-        $category = $this->db->getOne($sql, [$categoryId]);
-
-        if (!$category) {
-            return 'UNK';
-        }
-
-        // Create an abbreviation of the category name by taking the first three letters of each word
-        $words = explode(' ', $category['category_name']);
-        $abbreviation = '';
-        foreach ($words as $word) {
-            $abbreviation .= strtoupper(substr($word, 0, 5));
-        }
-
-        return $abbreviation;
     }
 }

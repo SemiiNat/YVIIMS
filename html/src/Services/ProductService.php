@@ -26,16 +26,6 @@ class ProductService
         return $this->db->getMany($sql);
     }
 
-    private function generateAbbreviation(string $name): string
-    {
-        $words = explode(' ', $name);
-        $abbreviation = '';
-        foreach ($words as $word) {
-            $abbreviation .= strtoupper(substr($word, 0, 1));
-        }
-        return $abbreviation;
-    }
-
     public function getCategoryNameById(int $categoryId): string
     {
         $sql = "SELECT category_name FROM category WHERE id = ?";
@@ -56,7 +46,7 @@ class ProductService
         return $this->db->getOne($sql, $params);
     }
 
-    public function createProduct($data, $inventoryData): array
+    public function createProduct($data): array
     {
         $this->db->beginTransaction();
         $validationErrors = [];
@@ -68,24 +58,11 @@ class ProductService
                 throw new \Exception("Validation Error");
             }
 
-            // Generate SKU
-            $categoryName = $this->getCategoryNameById($data['category_id']);
-            $categoryAbbreviation = $this->productModel->getCategoryNameAbbreviation($data['category_id']);
-            $productAbbreviation = $this->generateAbbreviation($data['product_name']);
-            $skuPrefix = "YVI-{$categoryAbbreviation}-{$productAbbreviation}-";
-            $latestProduct = $this->productModel->getLatestProductBySKU($skuPrefix);
-            $sequenceId = 1;
-            if ($latestProduct) {
-                $latestSku = $latestProduct['sku'];
-                $sequenceId = intval(substr($latestSku, -3)) + 1;
-            }
-            $data['sku'] = $skuPrefix . date('Y', strtotime($data['manufacturing_date'])) . '-A' . str_pad($sequenceId, 3, '0', STR_PAD_LEFT);
-
             // Remove supplier_ids from data
             $supplierIds = $data['supplier_ids'] ?? [];
             unset($data['supplier_ids']);
 
-            $productId = $this->db->saveProductAndInventory($data, $inventoryData);
+            $productId = $this->productModel->save($data);
             if ($productId === false) {
                 throw new \Exception("Failed to save product");
             }
@@ -110,10 +87,10 @@ class ProductService
 
     public function softDelete(int $id): bool
     {
-        return $this->productModel->soft_delete($id);
+        return $this->productModel->update(['id' => $id, 'is_deleted' => 1]);
     }
 
-    public function updateProduct($data, $inventoryData): array
+    public function updateProduct($data): array
     {
         $this->db->beginTransaction();
         $validationErrors = [];
@@ -133,9 +110,6 @@ class ProductService
             if ($productId === false) {
                 throw new \Exception("Database Error");
             }
-
-            // Update inventory
-            $this->db->updateInventoryByProductId($data['id'], $inventoryData);
 
             // Attach suppliers
             if (!empty($supplierIds)) {
