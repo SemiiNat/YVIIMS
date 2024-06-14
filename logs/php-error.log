@@ -260,3 +260,312 @@ Stack trace:
 [14-Jun-2024 17:23:00 Asia/Manila] Successfully deleted batch with ID: 21
 [14-Jun-2024 17:23:00 Asia/Manila] Successfully deleted inventory for product_id: 23
 [14-Jun-2024 17:23:00 Asia/Manila] Successfully deleted inventory with batch ID: 21
+[14-Jun-2024 17:24:03 Asia/Manila] Saving batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-05-30","expiration_date":"2025-03-02","quantity":"60"}
+[14-Jun-2024 17:24:03 Asia/Manila] Successfully saved batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-05-30","expiration_date":"2025-03-02","quantity":"60"}
+[14-Jun-2024 17:24:03 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:24:03 Asia/Manila] Successfully saved inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:24:03 Asia/Manila] Successfully created inventory with data: {"product_id":"23","manufacturing_date":"2024-05-30","quantity":"60"}
+[14-Jun-2024 17:24:06 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/inventory/edit.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Controllers/InventoryController.php(63): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(120): App\Controllers\InventoryController->edit(Object(App\Http\Request), Object(App\Http\Response), '22')
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 10
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 27
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 33
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 39
+[14-Jun-2024 17:29:06 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 45
+[14-Jun-2024 17:29:14 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:29:14 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:29:14 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:29:14 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 10
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 27
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 33
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 39
+[14-Jun-2024 17:29:36 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 45
+[14-Jun-2024 17:41:21 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:41:21 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:41:21 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:41:21 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 10
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 27
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 33
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 39
+[14-Jun-2024 17:41:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 45
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 10
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 17
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 27
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 33
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 39
+[14-Jun-2024 17:42:01 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 45
+[14-Jun-2024 17:45:27 Asia/Manila] Saving batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-01-20","expiration_date":"2024-10-20","quantity":"30"}
+[14-Jun-2024 17:45:27 Asia/Manila] Successfully saved batch with data: {"product_id":"23","sku":"YVI-MOIST-OMC-2024","manufacturing_date":"2024-01-20","expiration_date":"2024-10-20","quantity":"30"}
+[14-Jun-2024 17:45:27 Asia/Manila] Saving inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:45:27 Asia/Manila] Successfully saved inventory with data: {"product_id":"23"}
+[14-Jun-2024 17:45:27 Asia/Manila] Successfully created inventory with data: {"product_id":"23","manufacturing_date":"2024-01-20","quantity":"30"}
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 9
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 26
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 32
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 38
+[14-Jun-2024 17:45:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 44
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 9
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 26
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 32
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 38
+[14-Jun-2024 17:45:34 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 44
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 9
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 26
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 32
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 38
+[14-Jun-2024 17:47:31 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 44
+[14-Jun-2024 17:47:39 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:47:39 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:47:39 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:47:39 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:47:51 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:47:51 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:47:51 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:47:51 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 17:49:18 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 9
+[14-Jun-2024 17:49:18 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:49:18 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:49:18 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:49:18 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 16
+[14-Jun-2024 17:49:18 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 26
+[14-Jun-2024 17:49:18 Asia/Manila] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/src/Views/inventory/edit.php on line 32
+[14-Jun-2024 17:58:54 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(58): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 17:59:06 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(58): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 18:21:24 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 18:22:58 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 18:23:05 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 18:23:09 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 18:24:00 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:24:00 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:24:00 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:24:00 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:24:04 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 18:24:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:24:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:24:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:24:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:47:20 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 18:56:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:56:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:56:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 18:56:12 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 19:00:17 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:01:25 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:01:35 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:01:48 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:05:34 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:15:20 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:15:25 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:15:33 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:15:45 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:16:03 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:51:01 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 19:51:01 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 19:51:01 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 19:51:01 Asia/Manila] PHP Warning:  Undefined array key "stock_status" in /var/www/html/src/Views/product/index.php on line 35
+[14-Jun-2024 19:51:05 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 19:51:29 Asia/Manila] PHP Fatal error:  Uncaught Exception: View file not found: /var/www/html/src/Http/../Views/404.php in /var/www/html/src/Http/View.php:84
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(145): App\Http\View->render()
+#1 /var/www/html/src/Routes/Router.php(124): App\Routes\Router->renderView(Object(App\Http\View), Object(App\Http\Response))
+#2 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#3 /var/www/html/router.php(57): App\Routes\Router->run()
+#4 {main}
+  thrown in /var/www/html/src/Http/View.php on line 84
+[14-Jun-2024 20:19:31 Asia/Manila] PHP Fatal error:  Uncaught Error: Unknown named parameter $id in /var/www/html/src/Routes/Router.php:120
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#1 /var/www/html/router.php(57): App\Routes\Router->run()
+#2 {main}
+  thrown in /var/www/html/src/Routes/Router.php on line 120
+[14-Jun-2024 20:19:57 Asia/Manila] PHP Fatal error:  Uncaught Error: Unknown named parameter $id in /var/www/html/src/Routes/Router.php:120
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#1 /var/www/html/router.php(57): App\Routes\Router->run()
+#2 {main}
+  thrown in /var/www/html/src/Routes/Router.php on line 120
+[14-Jun-2024 20:23:13 Asia/Manila] PHP Fatal error:  Uncaught Error: Unknown named parameter $id in /var/www/html/src/Routes/Router.php:120
+Stack trace:
+#0 /var/www/html/src/Routes/Router.php(57): App\Routes\Router->handleRoute(Object(App\Routes\Route), Array)
+#1 /var/www/html/router.php(57): App\Routes\Router->run()
+#2 {main}
+  thrown in /var/www/html/src/Routes/Router.php on line 120
+[14-Jun-2024 20:32:30 Asia/Manila] Attempting to update inventory with batch ID: 23
+[14-Jun-2024 20:32:30 Asia/Manila] PHP Warning:  Undefined array key "id" in /var/www/html/src/Models/Batch.php on line 41
+[14-Jun-2024 20:32:30 Asia/Manila] Successfully updated inventory with ID: 23 Data: {"product_id":"23","quantity":"20","manufacturing_date":"2024-03-30","id":23}
+[14-Jun-2024 20:32:30 Asia/Manila] Successfully updated inventory with batch ID: 23
+[14-Jun-2024 20:36:40 Asia/Manila] Attempting to update inventory with batch ID: 23
+[14-Jun-2024 20:36:40 Asia/Manila] Successfully updated inventory with ID: 23 Data: {"product_id":"23","quantity":"20","manufacturing_date":"2024-06-14","id":23}
+[14-Jun-2024 20:36:40 Asia/Manila] Successfully updated inventory with batch ID: 23
+[14-Jun-2024 20:36:40 Asia/Manila] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/src/Http/Response.php:64) in /var/www/html/src/Http/Response.php on line 47
+[14-Jun-2024 20:40:44 Asia/Manila] Attempting to update inventory with batch ID: 23
+[14-Jun-2024 20:40:44 Asia/Manila] Successfully updated inventory with ID: 23 Data: {"product_id":"23","quantity":"10","manufacturing_date":"2024-06-13","id":23}
+[14-Jun-2024 20:40:44 Asia/Manila] Successfully updated inventory with batch ID: 23

@@ -38,11 +38,15 @@ class Batch extends BaseModel
 
     public function update(array $data): bool
     {
+        if (!isset($data[$this->primaryKey])) {
+            return false;
+        }
         $id = $data[$this->primaryKey];
         unset($data[$this->primaryKey]);
-
+    
         return $this->db->update($this->table, $data, $id);
     }
+    
 
     public function delete($id): bool
     {
