@@ -569,3 +569,7 @@ Stack trace:
 [14-Jun-2024 20:40:44 Asia/Manila] Attempting to update inventory with batch ID: 23
 [14-Jun-2024 20:40:44 Asia/Manila] Successfully updated inventory with ID: 23 Data: {"product_id":"23","quantity":"10","manufacturing_date":"2024-06-13","id":23}
 [14-Jun-2024 20:40:44 Asia/Manila] Successfully updated inventory with batch ID: 23
+[14-Jun-2024 15:14:58 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0
+[14-Jun-2024 15:14:58 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 15:14:58 UTC] PHP Warning:  Module "gd" is already loaded in Unknown on line 0
+[14-Jun-2024 15:14:58 UTC] PHP Warning:  Module "curl" is already loaded in Unknown on line 0

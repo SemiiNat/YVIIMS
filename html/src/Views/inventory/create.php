@@ -5,8 +5,7 @@ use App\Http\View;
 View::startSection('content');
 ?>
 <div class="container mx-auto">
-        <form method="POST" id="saveForm" hx-post="/inventory/add" hx-trigger="submit" hx-swap="none">
-
+    <form method="POST" id="saveForm" hx-post="/inventory/add" hx-trigger="submit" hx-swap="none">
         <div class="mb-4">
             <label for="product_id" class="block text-gray-700 text-sm font-bold mb-2">Product Name:</label>
             <select id="product_id" name="product_id" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500">

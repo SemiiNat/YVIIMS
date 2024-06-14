@@ -43,10 +43,9 @@ class Batch extends BaseModel
         }
         $id = $data[$this->primaryKey];
         unset($data[$this->primaryKey]);
-    
+
         return $this->db->update($this->table, $data, $id);
     }
-    
 
     public function delete($id): bool
     {

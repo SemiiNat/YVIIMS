@@ -75,22 +75,20 @@ class InventoryController
         error_log("Attempting to update inventory with batch ID: " . $id);
         $data = $request->getBody();
         $data['id'] = (int) $id;
-    
+
         $validationError = $this->inventoryService->updateInventory((int) $id, $data);
-    
+
         if (!empty($validationError)) {
             error_log("Validation error: " . json_encode($validationError));
             $response->sendJson($validationError, 422);
             return;
         }
-    
+
         error_log("Successfully updated inventory with batch ID: " . $id);
         $response->setHeader('Location', '/inventory');
         $response->setBody(''); // Ensure no body is sent
         $response->send(); // Send the response immediately to handle redirection
     }
-    
-    
 
     public function delete(Request $request, Response $response, $id)
     {

@@ -59,7 +59,7 @@ class InventoryService
             }
 
             // Generate SKU and expiration date
-            $sku = $this->generateSKU($data['product_id']);
+            $sku = $this->generateSKU($data['product_id'], $data['manufacturing_date']);
             $expirationDate = $this->calculateExpirationDate($data['manufacturing_date']);
             $data['sku'] = $sku;
             $data['expiration_date'] = $expirationDate;
@@ -107,15 +107,15 @@ class InventoryService
     {
         $this->db->beginTransaction();
         $validationErrors = [];
-    
+
         try {
             $data['id'] = $id;
             $validationErrors = $this->inventoryModel->validate($data);
-    
+
             if (!empty($validationErrors)) {
                 throw new \Exception("Validation Error");
             }
-    
+
             // Update batch
             $batchData = [
                 'id' => $id,
@@ -128,14 +128,14 @@ class InventoryService
             if ($batchUpdateResult === false) {
                 throw new \Exception("Failed to update batch");
             }
-    
+
             // Update inventory
             $result = $this->inventoryModel->update($data);
             if ($result === false) {
                 throw new \Exception("Failed to update inventory");
             }
             error_log("Successfully updated inventory with ID: " . $id . " Data: " . json_encode($data));
-    
+
             $this->db->commit();
         } catch (\Exception $e) {
             $this->db->rollback();
@@ -145,10 +145,9 @@ class InventoryService
             }
             return ['error' => "Database Error: " . $e->getMessage()];
         }
-    
+
         return $validationErrors;
     }
-    
 
     public function deleteInventory(int $batchId): bool
     {
@@ -187,17 +186,22 @@ class InventoryService
         return true;
     }
 
-    private function generateSKU(int $productId): string
+    private function generateSKU(int $productId, string $manufacturingDate): string
     {
         $product = $this->db->getOne("SELECT p.product_name, c.category_name FROM product p JOIN category c ON p.category_id = c.id WHERE p.id = ?", [$productId]);
 
-        $categoryAbbreviation = strtoupper(substr($product['category_name'], 0, 5));
-        $productAbbreviation = strtoupper(implode('', array_map(function ($word) {
-            return $word[0];
-        }, explode(' ', $product['product_name']))));
-        $year = date('Y');
+        $categoryAbbreviation = strtoupper(substr($product['category_name'], 0, 4));
+        $productAbbreviation = strtoupper(preg_replace('/[^A-Z0-9]/i', '', implode('', array_map(function ($word) {
+            return substr($word, 0, 1);
+        }, explode(' ', $product['product_name'])))));
+        $year = date('Y', strtotime($manufacturingDate));
 
-        return 'YVI-' . $categoryAbbreviation . '-' . $productAbbreviation . '-' . $year;
+        // Get the last batch number
+        $lastBatch = $this->db->getOne("SELECT MAX(id) AS last_id FROM batch WHERE product_id = ?", [$productId]);
+        $lastId = isset($lastBatch['last_id']) ? (int)$lastBatch['last_id'] + 1 : 1;
+        $batchNumber = 'A' . str_pad($lastId, 3, '0', STR_PAD_LEFT);
+
+        return 'YVI-' . $categoryAbbreviation . '-' . $productAbbreviation . '-' . $year . '-' . $batchNumber;
     }
 
     private function calculateExpirationDate(string $manufacturingDate): string
