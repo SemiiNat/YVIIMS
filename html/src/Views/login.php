@@ -38,6 +38,7 @@
         <div class="text-center">
             <div class="business-name">YVI</div>
             <div class="subtext">SKIN CARE PRODUCTS</div>
+            <div class="subtext">INVENTORY MANAGEMENT SYSTEM</div>
         </div>
     </div>
 
